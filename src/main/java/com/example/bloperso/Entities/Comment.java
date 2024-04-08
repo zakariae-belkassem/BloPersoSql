@@ -15,7 +15,7 @@ public class Comment {
     private String Content;
     @Column(name = "Date_de_creation",nullable = false)
     private Date Created;
-    @OneToOne
+    @ManyToOne
     private Blogger blogger;
 
 }

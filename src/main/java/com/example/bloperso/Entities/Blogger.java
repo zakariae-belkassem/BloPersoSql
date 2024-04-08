@@ -18,11 +18,23 @@ public class Blogger {
     private String FullName;
     @Column(name="password",length=100,nullable=false)
     private String Password;
-    @Column(name="phone_number",length=100,nullable=true)
+    @Column(name="phone_number",length=100)
     private String Phone_number;
     @Transient
     private int nbrPosts = 0;
     @OneToMany
     private List<Blogger> friends;
+    @Column(name = "Adresse")
+    private String Adresse ;
+    @Column(name = "email")
+    private String email;
 
+    public Blogger(String username, String fullName, String password, String phone_number,  String adresse, String email) {
+        Username = username;
+        FullName = fullName;
+        Password = password;
+        Phone_number = phone_number;
+        Adresse = adresse;
+        this.email = email;
+    }
 }
