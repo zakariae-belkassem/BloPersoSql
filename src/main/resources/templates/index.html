@@ -9,41 +9,19 @@
 </head>
 <body>
     <div class="container">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>id</th>
+        <div th:each="p:${poste}">
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="../static/images/img.jpg" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${p.title}"></h5>
+                    <p class="card-text" th:text="${p.corpsPost}"></p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
 
 
-                <th>Username</th>
 
-                <th>title</th>
-
-
-                <th>Content</th>
-
-                <th>theme</th>
-                <th>icon url</th>
-
-                 <th>Comments</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="p:${poste}">
-
-                <td th:text=" ${p.id}"></td>
-                <td th:text=" ${p.blogger.username}"></td>
-                <td th:text=" ${p.title}"></td>
-                <td th:text=" ${p.CorpsPost}"></td>
-                <td th:text=" ${p.theme.name()}"></td>
-                <td th:text=" ${p.iconUrl}"></td>
-                <td th:each =" c :${p.comments}">
-                        <p th:text="${c.content}"></p>
-                </td>
-            </tr>
-            </tbody>
-
-        </table>
         <div class="alert-danger">
             <p th : th:text="${error}"></p>
         </div>
