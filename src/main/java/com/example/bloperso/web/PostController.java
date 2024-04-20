@@ -74,6 +74,9 @@ public class PostController {
     // Method to handle form submission and save post data
     @PostMapping("/add")
     public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("visibilite") Visibilite visibilite, @RequestParam("image")MultipartFile file) {
+
+
+
         // Set the Blogger for the new post
         System.out.println("-------------------");
         Blogger b = new Blogger("u1","omar hafidi","pass","8768976897","dzqdqz","email@gmail.com");
