@@ -41,6 +41,7 @@ public class BloggerService {
         p.addComment(c);
         commentRepository.save(c);
         postRepository.save(p);
+
     }
     public void like(long idP,long idB){
         Post p = postRepository.findById(idP).orElse(null);

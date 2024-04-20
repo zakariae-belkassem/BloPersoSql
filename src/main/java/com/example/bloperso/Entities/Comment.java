@@ -23,5 +23,7 @@ public class Comment {
     private Date Created;
     @ManyToOne
     private Blogger blogger;
+    @ManyToOne
+    private  Post post;
 
 }

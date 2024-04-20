@@ -16,7 +16,7 @@ public class Post {
     private int nbrComment ;
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+    @ManyToOne
     private Blogger blogger;
     @Column(name="title",nullable=false)
     private String title;
@@ -28,8 +28,10 @@ public class Post {
     private String image;
     @Column(name="visibilite",nullable = false)
     private Visibilite visibilite ;
-    @OneToMany
+
+    @OneToMany(mappedBy = "post")
     private List<Comment> Comments;
+
     @OneToMany
     private List<Blogger> Likers;
 
