@@ -32,7 +32,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<Comment> Comments;
 
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Blogger> Likers;
 
     public Post(Blogger blogger, String title, String corpsPost, PostCategorie theme, String image, Visibilite visibilite, List<Comment> comments, List<Blogger> likers) {
@@ -51,4 +51,8 @@ public class Post {
         Likers.add(b);
     }
     public void addComment(Comment c){Comments.add(c);}
+    public void removeLiker(Blogger b){
+
+        Likers.remove(b);
+    }
 }

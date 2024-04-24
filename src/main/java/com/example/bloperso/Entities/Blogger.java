@@ -35,8 +35,12 @@ public class Blogger {
     private String Adresse ;
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "blogger")
+    @OneToMany
     private List<Comment> comment ;
+    @OneToMany
+    private List<Post> bookMarks ;
+    @OneToMany
+    private List<Blogger> friendRequest;
 
     @ManyToOne
     private Blogger blogger ;
@@ -47,5 +51,17 @@ public class Blogger {
         Phone_number = phone_number;
         Adresse = adresse;
         this.email = email;
+    }
+    public void AddBookMark(Post p ){
+        bookMarks.add(p);
+    }
+    public void removeBookMark(Post p){
+        bookMarks.remove(p);
+    }
+    public void AddRequest(Blogger blogger){
+        friendRequest.add(blogger);
+    }
+    public void RemoveRequest(Blogger b ){
+        friendRequest.remove(b);
     }
 }

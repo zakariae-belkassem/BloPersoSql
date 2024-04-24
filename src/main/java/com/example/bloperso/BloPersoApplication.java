@@ -21,7 +21,7 @@ public class BloPersoApplication  {
     public static void main(String[] args) {
 
       ApplicationContext ctx =  SpringApplication.run(BloPersoApplication.class, args);
-        init(ctx);
+      //  init(ctx);
     }
 public static void init(ApplicationContext ctx){
         BloggerRepository bloggerRepository = ctx.getBean(BloggerRepository.class);

@@ -33,10 +33,12 @@
                         <i class="fa fa-chevron-right mr-1" aria-hidden="true"></i> <!-- Icon for "Read More" -->
                         Read More
                     </a>
-                    <a href="#" class="btn btn-primary">
-                        <i class="fa fa-bookmark mr-1" aria-hidden="true"></i> <!-- Icon for "Bookmark" -->
-                        Bookmark
-                    </a>
+                    <form action="/bookMark" th:method="post">
+                        <input type="hidden" th:value="${post.id}" name="id" id="id">
+                        <button  type="submit"  class="btn btn-primary">
+                            BookMark
+                        </button>
+                    </form>
                 </div>
 
             </div>

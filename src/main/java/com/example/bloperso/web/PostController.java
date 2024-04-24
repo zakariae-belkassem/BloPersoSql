@@ -34,6 +34,7 @@ public class PostController {
     @Value("${upload.path}")
     private String uploadPath;
 
+    private Long idBlogger = 1L;
     @RequestMapping(value = "")
     public String index(Model model){
         List<Post> posts = postRepository.findAll();
@@ -105,7 +106,13 @@ public class PostController {
         // Redirect to a confirmation page or any other appropriate page
         return "redirect:/"; // Redirect back to the home page
     }
+    @PostMapping(value = "/like")
+    public String LikeP(@RequestParam(name = "id")Long id){
 
+        bloggerService.like(id,idBlogger);
+        return "redirect:/post/"+id;
+    }
+//popular posts + if not connected show preview only -> on click loginPage + Sessions + Security
 }
 
 
