@@ -23,6 +23,7 @@ public class Post {
     @Column(name="content_Post",nullable=false)
     private String CorpsPost;
     @Column(name="theme",nullable=false)
+    @Enumerated(EnumType.STRING)
     private PostCategorie theme;
     @Column(name = "image")
     private String image;
