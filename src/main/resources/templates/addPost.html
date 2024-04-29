@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Post</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>Add New Post</h2>
+            <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+                <!-- Title Input -->
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="Enter title" required>
+                </div>
+                <!-- Content Textarea -->
+                <div class="form-group">
+                    <label for="corpsPost">Content:</label>
+                    <textarea name="corpsPost" class="form-control" id="corpsPost" placeholder="Enter content" required></textarea>
+                </div>
+                <!-- Theme Dropdown -->
+                <div class="form-group">
+                    <label for="theme">Theme:</label>
+                    <select name="theme" class="form-control" id="theme">
+                        <option value="">Select theme</option>
+                        <!-- Loop through PostCategorie enum values -->
+                        <option th:each="categorie : ${T(com.example.bloperso.Entities.PostCategorie).values()}"
+                                th:value="${categorie}"
+                                th:text="${#strings.capitalize(categorie.toString().toLowerCase())}">
+                        </option>
+                    </select>
+                </div>
+                <!-- Visibility Toggle -->
+                <div class="form-group">
+                    <label for="visibilite">Visibility:</label>
+                    <select name="visibilite" class="form-control" id="visibilite" >
+                        <option value="">Select theme</option>
+                        <option th:each="v : ${T(com.example.bloperso.Entities.Visibilite).values()}"
+                                th:value="${v}"
+                                th:text="${#strings.capitalize(v.toString().toLowerCase())}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="image">Image:</label>
+                    <input type="file" name="image" class="form-control-file" id="image">
+                </div>
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

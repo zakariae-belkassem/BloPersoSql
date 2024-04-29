@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Detail</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="post">
+                <h2 class="post-title" th:text="${post.title}">Title</h2>
+                <p class="post-content" th:text="${post.corpsPost}">Content</p>
+                <div class="post-meta">
+
+                    <span class="post-likes ml-3" th:text="${post.likers.size()}">0 Likes</span> <!-- Number of likes -->
+                </div>
+                <div class="post-actions mt-3 ">
+                    <!-- Like Button -->
+
+                    <!-- Comment Button -->
+                    <div class="d-flex mt-3">
+                    <button class="btn btn-primary mr-3 " onclick="commentPost(${post.id})">
+                        <i class="fas fa-comment mr-1"></i> <!-- Icon for "Comment" -->
+
+                    </button>
+                    <!-- Input field for adding comments -->
+                    <input type="text" class="form-control" id="commentInput" placeholder="Add a comment...">
+                        <button class="btn btn-primary ml-3 " onclick="likePost(${post.id})">
+                            <i class="fas fa-thumbs-up mr-1"></i> <!-- Icon for "Like" -->
+
+                        </button>
+                    </div>
+                    </div>
+                <div class="comments mt-4">
+                    <h3>Comments</h3>
+                    <!-- Loop through comments -->
+                    <div th:each="comment : ${post.comments}">
+                        <div class="comment">
+                            <p class="comment-content" th:text="${comment.content}">Comment Content</p>
+                            <div class="comment-meta">
+                                <span class="comment-date" th:text="${comment.getCreated()}">Comment Date</span> <!-- Date of the comment -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Comments Section -->
+
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    function likePost(postId) {
+        // You can implement your like functionality here
+        console.log('Liked post with ID: ' + postId);
+    }
+
+    function commentPost(postId) {
+        // You can implement your comment functionality here
+        console.log('Commented on post with ID: ' + postId);
+    }
+</script>
+</body>
+</html>
