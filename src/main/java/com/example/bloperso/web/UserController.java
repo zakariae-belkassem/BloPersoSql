@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping(value = "/bookMark")
     public String bookMark(@RequestParam(name = "id")Long id){
-       Boolean b = bloggerService.BookMark(id,1L);
+       Boolean b = bloggerService.BookMark(id,idBlogger);
         if (b) return "redirect:/";
         else return "redirect:/BookMarks";
     }

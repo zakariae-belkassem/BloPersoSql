@@ -91,6 +91,6 @@ public class BloggerService {
     }
 
     public void removePost(Long idP ){
-        if (postRepository.findById(idP)) postRepository.deleteById(idP);
+       // if (postRepository.findById(idP)) postRepository.deleteById(idP);
     }
 }
