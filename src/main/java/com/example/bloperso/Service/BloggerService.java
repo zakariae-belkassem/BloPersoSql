@@ -91,6 +91,10 @@ public class BloggerService {
     }
 
     public void removePost(Long idP ){
-        if (postRepository.findById(idP)) postRepository.deleteById(idP);
+        if (postRepository.findById(idP).isPresent()) postRepository.deleteById(idP);
+    }
+
+    public List<Post> ownPosts(Long idB){
+        return postRepository.findAll().stream().filter(e->e.getBlogger().getId().equals(idB)).toList();
     }
 }
