@@ -113,6 +113,14 @@ public class PostController {
         return "redirect:/post/"+id;
     }
 //popular posts + if not connected show preview only -> on click loginPage + Sessions + Security
+
+    @PostMapping(value = "/deleteP")
+    public String removeP(@RequestParam(name="id")Long id){
+        bloggerService.removePost(id);
+        return "indexx";
+    }
+
+
 }
 
 

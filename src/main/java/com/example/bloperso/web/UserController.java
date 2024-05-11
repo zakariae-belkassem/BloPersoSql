@@ -3,6 +3,7 @@ package com.example.bloperso.web;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.dao.BloggerRepository;
+import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,6 +42,11 @@ public class UserController {
         bloggerService.AddFriend(id);
 
         return "redirect:/";
+    }
+    @RequestMapping(value = "/myPosts")
+    public String myPosts(Model model){
+        List<Post> posts = bloggerService.ownPosts(idBlogger);
+        return "ownPosts";
     }
 
 }
