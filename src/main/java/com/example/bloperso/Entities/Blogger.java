@@ -43,6 +43,8 @@ public class Blogger {
     private List<Blogger> friendRequest;
 
 
+
+
     public Blogger(String username, String fullName, String password, String phone_number,  String adresse, String email) {
         Username = username;
         FullName = fullName;
