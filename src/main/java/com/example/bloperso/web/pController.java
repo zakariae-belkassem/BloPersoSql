@@ -37,6 +37,7 @@ public class pController {
 
         // Add the post object to the model to be accessed in the Thymeleaf template
         model.addAttribute("post", post);
+        model.addAttribute("image","images/img.jpg");
         return "post"; // This corresponds to the name of your Thymeleaf template file
     }
 
