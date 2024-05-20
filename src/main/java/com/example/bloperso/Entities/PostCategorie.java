@@ -7,4 +7,6 @@ public enum PostCategorie {
     Actualite,
     Science,
     Technolgie,
+
+
 }

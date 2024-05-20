@@ -31,7 +31,7 @@ public class LoginController {
     }
     @PostMapping("/registration")
     public String registerBlogger(BloggerDto bloggerDto, Model model) {
-        bloggerService.registerBlogger(bloggerDto);
+        bloggerService.reg(bloggerDto);
         model.addAttribute("success", true);
         return "register";
     }

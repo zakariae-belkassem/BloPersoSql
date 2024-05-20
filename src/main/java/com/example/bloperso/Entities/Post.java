@@ -17,6 +17,7 @@ public class Post {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+    @JoinColumn(name = "blogger_id")
     private Blogger blogger;
     @Column(name="title",nullable=false)
     private String title;
@@ -31,10 +32,10 @@ public class Post {
     private Visibilite visibilite ;
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> Comments;
+    private List<Comment> comments;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private List<Blogger> Likers;
+    private List<Blogger> likers;
 
     public Post(Blogger blogger, String title, String corpsPost, PostCategorie theme, String image, Visibilite visibilite, List<Comment> comments, List<Blogger> likers) {
         this.blogger = blogger;
@@ -43,17 +44,17 @@ public class Post {
         this.theme = theme;
         this.image = image;
         this.visibilite = visibilite;
-        Comments = comments;
-        Likers = likers;
+        comments = comments;
+        likers = likers;
         nbrComment = 0;
     }
 
     public void addLiker(Blogger b){
-        Likers.add(b);
+        likers.add(b);
     }
-    public void addComment(Comment c){Comments.add(c);}
+    public void addComment(Comment c){comments.add(c);}
     public void removeLiker(Blogger b){
 
-        Likers.remove(b);
+        likers.remove(b);
     }
 }

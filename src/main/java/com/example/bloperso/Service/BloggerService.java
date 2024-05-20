@@ -3,6 +3,7 @@ package com.example.bloperso.Service;
 import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Comment;
 import com.example.bloperso.Entities.Post;
+import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.CommentRepository;
 import com.example.bloperso.dao.PostRepository;
@@ -23,18 +24,20 @@ import java.util.Optional;
 @Service
 public class BloggerService {
     @Autowired
+    private DtoMapper dtoMapper;
+    @Autowired
     private BloggerRepository bloggerRepository;
     @Autowired
     private CommentRepository commentRepository;
     @Autowired
     private PostRepository postRepository;
 
-    @Autowired
-    private DtoMapper dtoMapper;
+
     private Long idBlogger = 1L;
 
-    public void registerBlogger(BloggerDto bloggerDto) {
+    public void reg(BloggerDto bloggerDto) {
         Blogger blogger = dtoMapper.toEntity(bloggerDto);
+        System.out.println(blogger.toString());
         bloggerRepository.save(blogger);
     }
 
@@ -46,17 +49,18 @@ public class BloggerService {
     }
 
     public void comment(Comment c,Long idB,Long idP){
-        c.setBlogger(bloggerRepository.findById(idB).orElse(null));
-
+        Comment cnew = new Comment();
+        cnew.setContent(c.getContent());
+        cnew.setBlogger(bloggerRepository.findById(idB).orElse(null));
         Optional<Post> pp =  postRepository.findById(idP);
-        if (!pp.isPresent()) {
+        if (pp.isEmpty()) {
             return ;
         }
         Post p = pp.get();
-        c.setCreated(Date.valueOf(LocalDate.now()));
-        c.setPost(p);
-        p.addComment(c);
-        commentRepository.save(c);
+        cnew.setPost(p);
+        cnew.setCreated(Date.valueOf(LocalDate.now()));
+        p.addComment(cnew);
+        commentRepository.save(cnew);
         postRepository.save(p);
 
     }
@@ -111,5 +115,17 @@ public class BloggerService {
 
     public List<Post> ownPosts(Long idB){
         return postRepository.findAll().stream().filter(e->e.getBlogger().getId().equals(idB)).toList();
+    }
+    public BloggerDto getBloggerDto(Long id){
+        return dtoMapper.toDto(bloggerRepository.findById(id).orElse(null));
+    }
+    public Map<String,Integer> getCountC(Long id){
+        Map<String,Integer> count = new HashMap<>();
+        for (PostCategorie c : PostCategorie.values()){
+            count.put(c.name(),ownPosts(id).stream().filter(cat ->cat.getTheme()==c).toList().size());
+        }
+
+
+        return count;
     }
 }

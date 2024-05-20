@@ -22,8 +22,10 @@ public class Comment {
     @Temporal(TemporalType.DATE)
     private Date Created;
     @ManyToOne
+    @JoinColumn(name = "blogger_id")
     private Blogger blogger;
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "post_id")
     private  Post post;
 
 }

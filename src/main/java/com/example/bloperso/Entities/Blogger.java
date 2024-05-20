@@ -1,5 +1,6 @@
 package com.example.bloperso.Entities;
 
+import com.example.bloperso.dto.BloggerDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,12 +36,15 @@ public class Blogger {
     private String adresse ;
     @Column(name = "email")
     private String email;
-    @OneToMany
+    @OneToMany(mappedBy = "blogger")
     private List<Comment> comment ;
     @OneToMany
     private List<Post> bookMarks ;
     @OneToMany
     private List<Blogger> friendRequest;
+
+    @OneToMany(mappedBy = "blogger")
+    private List<Post> posts;
 
 
     public Blogger(String un, String fn, String pass, String phone_number,  String a, String email) {

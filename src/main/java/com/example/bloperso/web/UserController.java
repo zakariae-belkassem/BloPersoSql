@@ -1,20 +1,27 @@
 package com.example.bloperso.web;
 
+import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
+import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Service.BloggerService;
-import com.example.bloperso.dao.BloggerRepository;
-import org.springframework.aot.hint.annotation.RegisterReflectionForBinding;
+import com.example.bloperso.dto.BloggerDto;
+import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UserController {
+    @Autowired
+    private DtoMapper dtoMapper;
     @Autowired
    private BloggerService bloggerService;
     private Long idBlogger = 1L;
@@ -26,8 +33,7 @@ public class UserController {
     @PostMapping(value = "/bookMark")
     public String bookMark(@RequestParam(name = "id")Long id){
        Boolean b = bloggerService.BookMark(id,idBlogger);
-        if (b) return "redirect:/";
-        else return "redirect:/BookMarks";
+       return "redirect:/";
     }
     //get BookMarks of connected user
     @RequestMapping(value = "/BookMarks")
@@ -48,9 +54,19 @@ public class UserController {
         List<Post> posts = bloggerService.ownPosts(idBlogger);
         return "ownPosts";
     }
-    @RequestMapping(value="/profile")
-    public String profile(@RequestParam Long id,Model model){
-       return bloggerService.getBloggerInfo(id).toString();
+    @RequestMapping(value="/profile/{id}")
+    public String profile(@PathVariable Long id, Model model){
+       BloggerDto b = bloggerService.getBloggerDto(idBlogger);
+        System.out.println(b);
+        List<Post> postList = bloggerService.ownPosts(idBlogger);
+       model.addAttribute("blogger",b);
+       model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
+       model.addAttribute("cat" , PostCategorie.values());
+       model.addAttribute("catCount",bloggerService.getCountC(idBlogger));
+        bloggerService.getCountC(idBlogger).forEach((k,v)-> System.out.println(k+"---"+v));
+        System.out.println(bloggerService.getCountC(idBlogger));
+       return "profile";
     }
+
 
 }

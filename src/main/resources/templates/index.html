@@ -54,8 +54,8 @@
                     <div class="d-flex justify-content-between">
                         <a class="btn btn-primary" th:href="@{'/post/' + ${post.id}}">Read more →</a>
                         <form action="/bookMark" th:method="post">
-                            <input type="hidden" th:value="${post.id}" name="id" id="id">
-                            <button type="submit" class="btn btn-primary">
+                            <input name="id" id="id" type="hidden" th:value="${post.id}">
+                            <button  type="submit"  class="btn btn-primary">
                                 BookMark
                             </button>
                         </form>

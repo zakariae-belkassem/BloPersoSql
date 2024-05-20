@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
     <title>Add Post</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        window.onload = () => {
+            CKEDITOR.replace("corpsPost");
+        };
+
+        function sendText() {
+            window.parent.postMessage(CKEDITOR.instances.CK1.getData(), "*");
+        }
+    </script>
 </head>
 <body>
 <div class="container mt-5">

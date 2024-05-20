@@ -7,6 +7,7 @@ import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.PostService;
 import com.example.bloperso.dao.PostRepository;
+import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Conditional;
@@ -26,6 +27,8 @@ import java.util.List;
 @Controller
 public class PostController {
     @Autowired
+    private DtoMapper dtoMapper;
+    @Autowired
     BloggerService bloggerService;
     @Autowired
     private PostRepository postRepository ;
@@ -33,7 +36,6 @@ public class PostController {
     private PostService postService;
     @Value("${upload.path}")
     private String uploadPath;
-
 
     private Long idBlogger = 1L;
     @RequestMapping(value = "")
@@ -84,7 +86,7 @@ public class PostController {
         // Set the Blogger for the new post
         System.out.println("-------------------");
         Blogger b = new Blogger("u1","omar hafidi","pass","8768976897","dzqdqz","email@gmail.com");
-       // bloggerService.reg(b);
+        bloggerService.reg(dtoMapper.toDto(b));
         newPost.setBlogger(b);
 
         // Set the visibilite for the new post
@@ -120,7 +122,7 @@ public class PostController {
     @PostMapping(value = "/deleteP")
     public String removeP(@RequestParam(name="id")Long id){
         bloggerService.removePost(id);
-        return "index";
+        return "indexx";
     }
 
 

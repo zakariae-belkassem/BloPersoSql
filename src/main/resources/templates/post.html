@@ -16,7 +16,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#!">BlogO</a>
+        <a class="navbar-brand" href="#">BlogO</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -43,7 +43,7 @@
                     <h2 class="card-subtitle mb-3">Comments</h2>
                     <div th:each="comment : ${post.comments}">
                         <div class="mb-3">
-                            <div class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</div>
+                            <div class="fw-bold" th:text="${comment.blogger.userName}">Commenter Name</div>
                             <div th:text="${comment.content}">Comment Content</div>
                         </div>
                     </div>
@@ -53,11 +53,11 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title mb-3">Add a Comment</h2>
-                    <form action="/addCom" method="post">
-                        <input type="hidden" name="postId" th:value="${post.id}" />
+                    <form method="post" th:action="@{/addCom}">
+                        <input type="hidden" name="id"  id="id" th:value="${post.id}" />
                         <div class="mb-3">
-                            <label for="commentContent" class="form-label">Your Comment</label>
-                            <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>
+                            <label for="Content" class="form-label">Your Comment</label>
+                            <textarea class="form-control" id="Content" name="Content" rows="3" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

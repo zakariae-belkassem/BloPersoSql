@@ -3,17 +3,23 @@ package com.example.bloperso.dto;
 import com.example.bloperso.Entities.Blogger;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class DtoMapper {
     public BloggerDto toDto(Blogger blogger){
         if (blogger ==null) return null ;
         BloggerDto bloggerDto = new BloggerDto();
         bloggerDto.setId(blogger.getId());
-        bloggerDto.setUsername(blogger.getUserName());
+        bloggerDto.setUserName(blogger.getUserName());
         bloggerDto.setFullName(blogger.getFullName());
         bloggerDto.setPhoneNumber(blogger.getPhoneNumber());
         bloggerDto.setAdresse(blogger.getAdresse());
         bloggerDto.setEmail(blogger.getEmail());
+        List<BloggerDto> b = new ArrayList<>();
+        blogger.getFriends().forEach(f->b.add(toDto(f)));
+        bloggerDto.setFriends(b);
          return bloggerDto;
     }
 
@@ -24,7 +30,7 @@ public class DtoMapper {
 
         Blogger blogger = new Blogger();
         blogger.setId(bloggerDto.getId());
-        blogger.setUserName(bloggerDto.getUsername());
+        blogger.setUserName(bloggerDto.getUserName());
         blogger.setFullName(bloggerDto.getFullName());
         blogger.setPhoneNumber(bloggerDto.getPhoneNumber());
         blogger.setAdresse(bloggerDto.getAdresse());
