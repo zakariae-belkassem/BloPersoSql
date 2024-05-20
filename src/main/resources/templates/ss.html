@@ -31,10 +31,19 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-8">
+            <header class="mb-4">
+                <!-- Post title-->
+                <h1 class="fw-bolder mb-1">Welcome to Blog Post!</h1>
+                <!-- Post meta content-->
+                <div class="text-muted fst-italic mb-2">Posted on January 1, 2023 by Start Bootstrap</div>
+                <!-- Post categories-->
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
+                <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+            </header>
+            <!-- Preview image figure-->
+            <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
             <!-- Single post -->
-            <article class="card mb-4">
-
-                <figure class="mb-4"><img class="img-fluid rounded" th:src="${image}" alt="..." /></figure>
+            <div class="card mb-4">
                 <div class="card-body">
                     <!-- Post content -->
                     <h1 class="card-title fw-bolder mb-3" th:text="${post.title}">Post Title</h1>
@@ -43,18 +52,22 @@
                     <h2 class="card-subtitle mb-3">Comments</h2>
                     <div th:each="comment : ${post.comments}">
                         <div class="mb-3">
-                            <div class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</div>
+                            <div class="fw-bold" th:text="${comment.commenter.username}">Commenter Name</div>
                             <div th:text="${comment.content}">Comment Content</div>
                         </div>
                     </div>
                 </div>
-            </article>
+            </div>
             <!-- Comment form -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="card-title mb-3">Add a Comment</h2>
-                    <form action="/addCom" method="post">
+                    <form action="/addComment" method="post">
                         <input type="hidden" name="postId" th:value="${post.id}" />
+                        <div class="mb-3">
+                            <label for="commenterName" class="form-label">Your Name</label>
+                            <input type="text" class="form-control" id="commenterName" name="commenterName" required />
+                        </div>
                         <div class="mb-3">
                             <label for="commentContent" class="form-label">Your Comment</label>
                             <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>

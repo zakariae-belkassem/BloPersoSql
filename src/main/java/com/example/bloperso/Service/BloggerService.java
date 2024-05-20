@@ -6,6 +6,8 @@ import com.example.bloperso.Entities.Post;
 import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.CommentRepository;
 import com.example.bloperso.dao.PostRepository;
+import com.example.bloperso.dto.BloggerDto;
+import com.example.bloperso.dto.DtoMapper;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,10 +28,21 @@ public class BloggerService {
     private CommentRepository commentRepository;
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private DtoMapper dtoMapper;
     private Long idBlogger = 1L;
 
-    public void reg(Blogger b ){
-        bloggerRepository.save(b);
+    public void registerBlogger(BloggerDto bloggerDto) {
+        Blogger blogger = dtoMapper.toEntity(bloggerDto);
+        bloggerRepository.save(blogger);
+    }
+
+
+    public Blogger getBloggerInfo(Long id){
+       Optional<Blogger> b= bloggerRepository.findById(id);
+        Map<String ,String> info = new HashMap<>() ;
+        return null;
     }
 
     public void comment(Comment c,Long idB,Long idP){

@@ -48,5 +48,9 @@ public class UserController {
         List<Post> posts = bloggerService.ownPosts(idBlogger);
         return "ownPosts";
     }
+    @RequestMapping(value="/profile")
+    public String profile(@RequestParam Long id,Model model){
+       return bloggerService.getBloggerInfo(id).toString();
+    }
 
 }

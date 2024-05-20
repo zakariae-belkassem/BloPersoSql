@@ -14,16 +14,16 @@ public class Blogger {
     public Long Id ;
 
     @Column(name="User_name",length=100,nullable=false)
-    private String Username;
+    private String userName;
 
     @Column(name="full_name",length=100,nullable=false)
-    private String FullName;
+    private String fullName;
 
     @Column(name="password",length=100,nullable=false)
-    private String Password;
+    private String password;
 
     @Column(name="phone_number",length=100)
-    private String Phone_number;
+    private String phoneNumber;
 
     @Transient
     private int nbrPosts = 0;
@@ -32,7 +32,7 @@ public class Blogger {
     private List<Blogger> friends;
 
     @Column(name = "Adresse")
-    private String Adresse ;
+    private String adresse ;
     @Column(name = "email")
     private String email;
     @OneToMany
@@ -43,14 +43,12 @@ public class Blogger {
     private List<Blogger> friendRequest;
 
 
-
-
-    public Blogger(String username, String fullName, String password, String phone_number,  String adresse, String email) {
-        Username = username;
-        FullName = fullName;
-        Password = password;
-        Phone_number = phone_number;
-        Adresse = adresse;
+    public Blogger(String un, String fn, String pass, String phone_number,  String a, String email) {
+        userName = un;
+        fullName = fn;
+        password = pass;
+        phoneNumber = phone_number;
+        adresse = a;
         this.email = email;
     }
     public void AddBookMark(Post p ){

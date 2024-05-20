@@ -14,59 +14,70 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark"    >
     <div class="container">
         <a class="navbar-brand" href="#!">BlogO</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Explore</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/Categories">Explore</a></li>
                 <li class="nav-item"><a class="nav-link" href="/login">Sign in</a></li>
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
             </ul>
         </div>
     </div>
 </nav>
-<div class="container mt-5">
+
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Welcome to BlogO!</h1>
+            <p class="lead mb-0">Share your thoughts with the whole world</p>
+        </div>
+    </div>
+</header>
+
+<div class="container">
     <div class="row">
         <div class="col-lg-8">
-            <!-- Single post -->
-            <article class="card mb-4">
+            <!-- Content for the first column -->
+            <div class="card mb-4"  th:each="post : ${poste}">
+                <a th:href="@{'/post/'+${post.id}}">
 
-                <figure class="mb-4"><img class="img-fluid rounded" th:src="${image}" alt="..." /></figure>
+                    <img class="card-img-top " th:src="${image}" alt="Post Image" /></a>
+
                 <div class="card-body">
-                    <!-- Post content -->
-                    <h1 class="card-title fw-bolder mb-3" th:text="${post.title}">Post Title</h1>
-                    <p class="card-text" th:text="${post.corpsPost}">Post Content</p>
-                    <!-- Post comments -->
-                    <h2 class="card-subtitle mb-3">Comments</h2>
-                    <div th:each="comment : ${post.comments}">
-                        <div class="mb-3">
-                            <div class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</div>
-                            <div th:text="${comment.content}">Comment Content</div>
-                        </div>
+                    <div class="small text-muted" th:text="${post.theme}"></div>
+                    <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>:
+                    
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-primary" th:href="@{'/post/' + ${post.id}}">Read more →</a>
+                        <form action="/bookMark" th:method="post">
+                            <input type="hidden" th:value="${post.id}" name="id" id="id">
+                            <button type="submit" class="btn btn-primary">
+                                BookMark
+                            </button>
+                        </form>
                     </div>
+
                 </div>
-            </article>
-            <!-- Comment form -->
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title mb-3">Add a Comment</h2>
-                    <form action="/addCom" method="post">
-                        <input type="hidden" name="postId" th:value="${post.id}" />
-                        <div class="mb-3">
-                            <label for="commentContent" class="form-label">Your Comment</label>
-                            <textarea class="form-control" id="commentContent" name="commentContent" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                <div class="card-footer d-flex justify-content-between align-items-center" style="background: white">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" th:attr="data-post-id=${post.id}" th:onclick="'likePost(' + ${post.id} + ')'">Like</button>
+                        <span class="ml-2" ></span>
+                    </div>
+                    <small class="text-muted" th:text="${post.comments.size()} + ' comments'">comments</small>
+                    <small class="text-muted" th:text="${post.likers.size()} + ' likes'">likes</small>
+                </div>
+                <div class="card-footer d-flex justify-content-between" style="background: white">
+
                 </div>
             </div>
         </div>
-        <!-- Side widgets-->
         <div class="col-lg-4">
-            <!-- Search widget-->
+            <!-- Content for the second column -->
+
             <div class="card mb-4">
                 <div class="card-header">Search</div>
                 <div class="card-body">
@@ -76,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <!-- Categories widget-->
+
             <div class="card mb-4">
                 <div class="card-header">Categories</div>
                 <div class="card-body">
@@ -98,21 +109,30 @@
                     </div>
                 </div>
             </div>
-            <!-- Side widget-->
+
             <div class="card mb-4">
                 <div class="card-header">Side Widget</div>
                 <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
             </div>
+
         </div>
     </div>
 </div>
 <!-- Footer-->
 <footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; BlogO 2024</p></div>
 </footer>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
+
 </body>
 </html>
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+</style>

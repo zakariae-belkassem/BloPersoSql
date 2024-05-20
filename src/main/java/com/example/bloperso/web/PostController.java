@@ -34,13 +34,16 @@ public class PostController {
     @Value("${upload.path}")
     private String uploadPath;
 
+
     private Long idBlogger = 1L;
     @RequestMapping(value = "")
     public String index(Model model){
         List<Post> posts = postRepository.findAll();
         model.addAttribute("poste",posts);
+
             model.addAttribute("image","images/img.jpg");
-        return "indexx";
+            model.addAttribute("featured",postService.Featured());
+        return "index";
     }
 //    @GetMapping (value = "/post/{pId}")
 //    public String SpePost(Model model, @RequestParam(name = "pId",defaultValue = "0") Long id){
@@ -81,7 +84,7 @@ public class PostController {
         // Set the Blogger for the new post
         System.out.println("-------------------");
         Blogger b = new Blogger("u1","omar hafidi","pass","8768976897","dzqdqz","email@gmail.com");
-        bloggerService.reg(b);
+       // bloggerService.reg(b);
         newPost.setBlogger(b);
 
         // Set the visibilite for the new post
@@ -117,7 +120,7 @@ public class PostController {
     @PostMapping(value = "/deleteP")
     public String removeP(@RequestParam(name="id")Long id){
         bloggerService.removePost(id);
-        return "indexx";
+        return "index";
     }
 
 
