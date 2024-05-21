@@ -17,58 +17,37 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-public class PostController {
-    @Autowired
-    private DtoMapper dtoMapper;
+public class    PostController {
+
     @Autowired
     BloggerService bloggerService;
     @Autowired
     private PostRepository postRepository ;
     @Autowired
     private PostService postService;
-    @Value("${upload.path}")
-    private String uploadPath;
+
 
     private Long idBlogger = 1L;
     @RequestMapping(value = "")
     public String index(Model model){
-        List<Post> posts = postRepository.findAll();
-        model.addAttribute("poste",posts);
-
+            List<Post> posts = postRepository.findAll();
+            model.addAttribute("poste",posts);
             model.addAttribute("image","images/img.jpg");
             model.addAttribute("featured",postService.Featured());
         return "index";
     }
-//    @GetMapping (value = "/post/{pId}")
-//    public String SpePost(Model model, @RequestParam(name = "pId",defaultValue = "0") Long id){
-//        Post post = postRepository.findById(id).orElse(null);
-//        model.addAttribute("post",post);
-//        return "post";
-//    }
-//@GetMapping( "/add")
-//public String showAddPost(Model model){
-//    model.addAttribute("newPost",new Post());
-//    model.addAttribute("categories",PostCategorie.values());
-//    return "addPost" ;
-//}
-//    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public String addPost(@ModelAttribute("newPost") Post newPost){
-//        System.out.println("l bdo ");
-//        Blogger b = new Blogger("u1","omar hafidi","pass","8768976897","dzqdqz","email@gmail.com");
-//        bloggerService.reg(b);
-//        newPost.setBlogger(b);
-//        postService.createPost(newPost);
-//        return "redirect:/indexx";
-//    }
-    // Method to show the add post form
+
     @GetMapping("/add")
     public String showAddPostForm(Model model) {
 
@@ -79,36 +58,25 @@ public class PostController {
 
     // Method to handle form submission and save post data
     @PostMapping("/add")
-    public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("visibilite") Visibilite visibilite, @RequestParam("image")MultipartFile file) {
+    public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("visibilite") Visibilite visibilite, @RequestParam("file")MultipartFile file) {
 
 
 
-        // Set the Blogger for the new post
-        System.out.println("-------------------");
-        Blogger b = new Blogger("u1","omar hafidi","pass","8768976897","dzqdqz","email@gmail.com");
-        bloggerService.reg(dtoMapper.toDto(b));
-        newPost.setBlogger(b);
-
-        // Set the visibilite for the new post
-       // newPost.setVisibilite(visibilite);
         try {
-            Path path = Paths.get(uploadPath);
-
-            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            Files.copy(Path.of(fileName),Path.of("/images/"+b.getFullName()),StandardCopyOption.REPLACE_EXISTING);
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            Blob blob ;
+            if (!file.isEmpty()) {
+                blob = new SerialBlob(file.getBytes());
+                newPost.setImg(blob);
+            }
+            newPost.setBlogger(bloggerService.getBloggerInfo(idBlogger));
+            postRepository.save(newPost);
+        } catch (IOException | SQLException e) {
+           //
         }
 
-        newPost.setImage("/images/"+b.getFullName());
-        // Save the post to the database
-        postRepository.save(newPost);
 
-        // Redirect to a confirmation page or any other appropriate page
+
+
         return "redirect:/"; // Redirect back to the home page
     }
     @PostMapping(value = "/like")

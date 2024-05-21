@@ -45,7 +45,7 @@
             <div class="card mb-4"  th:each="post : ${poste}">
                 <a th:href="@{'/post/'+${post.id}}">
 
-                    <img class="card-img-top " th:src="${image}" alt="Post Image" /></a>
+                    <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
 
                 <div class="card-body">
                     <div class="small text-muted" th:text="${post.theme}"></div>

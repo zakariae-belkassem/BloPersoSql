@@ -28,7 +28,7 @@ public static void init(ApplicationContext ctx){
         PostRepository postRepository = ctx.getBean(PostRepository.class);
     CommentRepository commentRepository = ctx.getBean(CommentRepository.class);
     Blogger b1 = new Blogger("username1","fullname","password","012233","aa","email");
-    Post post = new Post(b1,"Title","Post  nbr 1",PostCategorie.Politique,"",Visibilite.Public,new ArrayList<>(),new ArrayList<>());
+    Post post = new Post(b1,"Title","Post  nbr 1",PostCategorie.Politique,Visibilite.Public,new ArrayList<>(),new ArrayList<>());
     Comment cmt = new Comment(1L,"Comment 1", Date.valueOf(LocalDate.now()),b1,post);
    bloggerRepository.save(b1);
    postRepository.save(post);
