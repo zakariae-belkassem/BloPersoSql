@@ -69,10 +69,41 @@ public class    PostController {
                 newPost.setImg(blob);
             }
             newPost.setBlogger(bloggerService.getBloggerInfo(idBlogger));
+            System.out.println(bloggerService.getBloggerInfo(idBlogger));
             postRepository.save(newPost);
         } catch (IOException | SQLException e) {
            //
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -44,8 +44,8 @@ public class BloggerService {
 
     public Blogger getBloggerInfo(Long id){
        Optional<Blogger> b= bloggerRepository.findById(id);
-        Map<String ,String> info = new HashMap<>() ;
-        return null;
+
+        return b.get();
     }
 
     public void comment(Comment c,Long idB,Long idP){

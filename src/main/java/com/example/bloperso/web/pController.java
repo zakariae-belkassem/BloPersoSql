@@ -18,7 +18,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/post")
-public class pController {
+public class
+pController {
 
     public pController(PostService postService, BloggerService bloggerService) {
         this.postService = postService;

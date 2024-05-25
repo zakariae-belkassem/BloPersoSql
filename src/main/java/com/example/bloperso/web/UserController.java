@@ -35,6 +35,7 @@ public class UserController {
        Boolean b = bloggerService.BookMark(id,idBlogger);
        return "redirect:/";
     }
+
     //get BookMarks of connected user
     @RequestMapping(value = "/BookMarks")
     public String GetBookmarks(Model model){
