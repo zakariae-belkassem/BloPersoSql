@@ -39,7 +39,7 @@ public class    PostController {
 
 
     private Long idBlogger = 1L;
-    @RequestMapping(value = "")
+    @RequestMapping(value = "/index")
     public String index(Model model){
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);
@@ -59,9 +59,6 @@ public class    PostController {
     // Method to handle form submission and save post data
     @PostMapping("/add")
     public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("visibilite") Visibilite visibilite, @RequestParam("file")MultipartFile file) {
-
-
-
         try {
             Blob blob ;
             if (!file.isEmpty()) {
@@ -69,59 +66,42 @@ public class    PostController {
                 newPost.setImg(blob);
             }
             newPost.setBlogger(bloggerService.getBloggerInfo(idBlogger));
-            System.out.println(bloggerService.getBloggerInfo(idBlogger));
             postRepository.save(newPost);
         } catch (IOException | SQLException e) {
            //
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         return "redirect:/"; // Redirect back to the home page
     }
     @PostMapping(value = "/like")
     public String LikeP(@RequestParam(name = "id")Long id){
 
-        bloggerService.like(id,idBlogger);
-        return "redirect:/post/"+id;
+        Boolean b =bloggerService.like(id,idBlogger);
+        System.out.println(id);
+        return "redirect:/";
     }
 //popular posts + if not connected show preview only -> on click loginPage + Sessions + Security
 
-    @PostMapping(value = "/deleteP")
-    public String removeP(@RequestParam(name="id")Long id){
+    @GetMapping(value = "/deleteP/{id}")
+    public String removeP(@PathVariable Long id){
         bloggerService.removePost(id);
-        return "indexx";
+        return "redirect : /";
+    }
+
+    @GetMapping(value = "/ownPosts")
+    public String ownP(Model model){
+
+        model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
+        return "CrudPost";
+    }
+    @GetMapping(value = "/modP/{id}")
+    public String Modifier(@PathVariable Long id,Model model){
+       model.addAttribute("post", postService.getPostById(id));
+        return "modifier";
+    }
+    @PostMapping (value = "/modP")
+    public String Modifier(@ModelAttribute("post") Post p ){
+        postService.createPost(p);
+        return "redirect:/";
     }
 
 

@@ -11,7 +11,9 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import java.sql.Date;
 
-@Entity@Data@NoArgsConstructor@Table(name = "Comment")@AllArgsConstructor@DynamicUpdate@DynamicInsert
+@Entity
+@Data
+@NoArgsConstructor@Table(name = "Comment")@AllArgsConstructor@DynamicUpdate@DynamicInsert
 public class Comment {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,10 +23,10 @@ public class Comment {
     @CreationTimestamp
     @Temporal(TemporalType.DATE)
     private Date Created;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "blogger_id")
     private Blogger blogger;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "post_id")
     private  Post post;
 

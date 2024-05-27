@@ -100,8 +100,8 @@
                                 <div th:each="ca : ${cat}">
                                     <p class="mb-1" style="font-size: .77rem;" th:text="${ca.name()} +' : '+${catCount.get(ca.name())}"></p>
                                     <div class="progress rounded" style="height: 5px;">
-                                        <div class="progress-bar" role="progressbar" th:style=" 'width : ' + ${(catCount.get(ca.name())/posts.size())*100 + '%'}"  th:aria-valuenow="${(catCount.get(ca.name())/posts.size())*100}"
-                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                        <div class="progress-bar" role="progressbar" th:style=" 'width : ' + ${(catCount.get(ca.name())/posts.size())*100+'%'}"  th:aria-valuenow="${(catCount.get(ca.name())/posts.size())*100}" aria-valuemin="0"
+                                            ></div>
 
                                     </div>
                                 </div>

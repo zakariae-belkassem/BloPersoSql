@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import java.sql.Blob;
 import java.sql.SQLException;
@@ -31,10 +32,10 @@ public class Post {
     @Column(name="visibilite",nullable = false)
     private Visibilite visibilite ;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post" , cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Comment> comments;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "likedPosts")
     private List<Blogger> likers;
     @Column(name = "image",columnDefinition = "LONGTEXT")
 

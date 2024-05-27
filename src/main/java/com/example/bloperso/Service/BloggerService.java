@@ -9,9 +9,7 @@ import com.example.bloperso.dao.CommentRepository;
 import com.example.bloperso.dao.PostRepository;
 import com.example.bloperso.dto.BloggerDto;
 import com.example.bloperso.dto.DtoMapper;
-import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -64,18 +62,23 @@ public class BloggerService {
         postRepository.save(p);
 
     }
-    public void like(long idP,long idB){
+    public Boolean like(long idP, long idB){
         Post p = postRepository.findById(idP).orElse(null);
         Blogger blogger = bloggerRepository.findById(idB).orElse(null);
-        System.out.println("from like func "+idB +"  ++++id post "+idP);
         if(p.getLikers().contains(blogger)) {
             p.removeLiker(blogger);
+            blogger.removeLikedpost(p);
+            bloggerRepository.save(blogger);
             postRepository.save(p);
+            return false;
         }else{
-            //p.getLikers().add(bloggerRepository.findById(idB).orElse(null));
             p.addLiker(blogger);
+            blogger.addLikedpost(p);
+            bloggerRepository.save(blogger);
             postRepository.save(p);
+            return true;
         }
+
     }
     public Boolean BookMark(Long idP,Long idB){
         Post p = postRepository.findById(idP).orElse(null);
@@ -86,7 +89,6 @@ public class BloggerService {
             return false;
         }else {
             blogger.AddBookMark(p);
-
             bloggerRepository.save(blogger);
             return true;
         }

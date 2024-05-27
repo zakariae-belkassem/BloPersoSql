@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <title>Add Post</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript">
+        window.onload = () => {
+            CKEDITOR.replace("corpsPost");
+        };
+
+        function sendText() {
+            window.parent.postMessage(CKEDITOR.instances.CK1.getData(), "*");
+        }
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h2>Add New Post</h2>
+            <form method="post" th:action="@{/add}" enctype="multipart/form-data">
+                <!-- Title Input -->
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input name="title" type="text" class="form-control" id="title" placeholder="Enter title" th:value="${post.title}" required>
+                </div>
+                <!-- Content Textarea -->
+                <div class="form-group">
+                    <label for="corpsPost">Content:</label>
+                    <textarea name="corpsPost" class="form-control" id="corpsPost"  th:value="${post.corpsPost}" required></textarea>
+                </div>
+                <!-- Theme Dropdown -->
+                <div class="form-group">
+                    <label for="theme">Theme:</label>
+                    <select name="theme" class="form-control" id="theme">
+                        <option th:value="${post.theme}">Select theme</option>
+                        <!-- Loop through PostCategorie enum values -->
+                        <option th:each="categorie : ${T(com.example.bloperso.Entities.PostCategorie).values()}"
+                                th:value="${categorie}"
+                                th:text="${#strings.capitalize(categorie.toString().toLowerCase())}">
+                        </option>
+                    </select>
+                </div>
+                <!-- Visibility Toggle -->
+                <div class="form-group">
+                    <label for="visibilite">Visibility:</label>
+                    <select name="visibilite" class="form-control" id="visibilite" >
+                        <option th:value="${post.visibilite}">Select theme</option>
+                        <option th:each="v : ${T(com.example.bloperso.Entities.Visibilite).values()}"
+                                th:value="${v}"
+                                th:text="${#strings.capitalize(v.toString().toLowerCase())}"></option>
+                    </select>
+                </div>
+
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
