@@ -6,6 +6,7 @@ import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.PostService;
+import com.example.bloperso.Service.SessionService;
 import com.example.bloperso.dao.PostRepository;
 import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,8 @@ public class    PostController {
     private PostService postService;
 
 
-    private Long idBlogger = 1L;
-    @RequestMapping(value = "/index")
+    private Long idBlogger =  new SessionService().idB();
+    @RequestMapping(value = "/")
     public String index(Model model){
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);

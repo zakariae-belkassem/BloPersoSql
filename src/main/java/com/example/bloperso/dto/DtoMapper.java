@@ -12,7 +12,7 @@ public class DtoMapper {
         if (blogger ==null) return null ;
         BloggerDto bloggerDto = new BloggerDto();
         bloggerDto.setId(blogger.getId());
-        bloggerDto.setUserName(blogger.getUserName());
+        bloggerDto.setUserName(blogger.getUsername());
         bloggerDto.setFullName(blogger.getFullName());
         bloggerDto.setPhoneNumber(blogger.getPhoneNumber());
         bloggerDto.setAdresse(blogger.getAdresse());
@@ -30,7 +30,7 @@ public class DtoMapper {
 
         Blogger blogger = new Blogger();
         blogger.setId(bloggerDto.getId());
-        blogger.setUserName(bloggerDto.getUserName());
+        blogger.setUsername(bloggerDto.getUserName());
         blogger.setFullName(bloggerDto.getFullName());
         blogger.setPhoneNumber(bloggerDto.getPhoneNumber());
         blogger.setAdresse(bloggerDto.getAdresse());

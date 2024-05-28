@@ -4,17 +4,20 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Data@NoArgsConstructor@AllArgsConstructor@Entity@Table(name = "Blogger")
-public class Blogger {
+public class Blogger implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long Id ;
 
-    @Column(name="User_name",length=100,nullable=false)
-    private String userName;
+    @Column(name="User_name",length=100,nullable=false,unique = true)
+    private String username;
 
     @Column(name="full_name",length=100,nullable=false)
     private String fullName;
@@ -28,27 +31,27 @@ public class Blogger {
     @Transient
     private int nbrPosts = 0;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Blogger> friends;
 
     @Column(name = "Adresse")
     private String adresse ;
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "blogger")
+    @OneToMany(mappedBy = "blogger",fetch = FetchType.EAGER)
     private List<Comment> comment ;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Post> bookMarks ;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Blogger> friendRequest;
 
-    @OneToMany(mappedBy = "blogger")
+    @OneToMany(mappedBy = "blogger",fetch = FetchType.EAGER)
     private List<Post> posts;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Post> likedPosts;
 
     public Blogger(String un, String fn, String pass, String phone_number,  String a, String email) {
-        userName = un;
+        username = un;
         fullName = fn;
         password = pass;
         phoneNumber = phone_number;
@@ -75,4 +78,47 @@ public class Blogger {
         likedPosts.remove(p);
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Blogger{" +
+                "Id=" + Id +
+                ", username='" + username + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", nbrPosts=" + nbrPosts +
+                ", adresse='" + adresse + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

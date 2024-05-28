@@ -4,6 +4,7 @@ import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Service.BloggerService;
+import com.example.bloperso.Service.SessionService;
 import com.example.bloperso.dto.BloggerDto;
 import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,13 @@ public class UserController {
     private DtoMapper dtoMapper;
     @Autowired
    private BloggerService bloggerService;
-    private Long idBlogger = 1L;
+
+    private Long idBlogger =  new SessionService().idB();
 
 //handling register and login
     //------------------
     //handle profile managment (modifications and what not )
+
 
     @PostMapping(value = "/bookMark")
     public String bookMark(@RequestParam(name = "id")Long id){
