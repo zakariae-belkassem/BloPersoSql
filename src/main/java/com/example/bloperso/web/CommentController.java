@@ -1,9 +1,7 @@
 package com.example.bloperso.web;
 
-import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Comment;
 import com.example.bloperso.Service.BloggerService;
-import com.example.bloperso.Service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,9 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class CommentController {
 
-    private Long idBlogger = new SessionService().idB();
 
 
+    private static Long idBlogger = 1L;
+
+
+    public static void SetupB(Long i){
+        idBlogger=i;
+    }
 
     @Autowired
     BloggerService bloggerService ;

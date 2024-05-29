@@ -12,7 +12,6 @@ import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -21,6 +20,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
+
 public class BloggerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,13 +39,14 @@ public class BloggerService {
 
 
 
-    private Long idBlogger =  new SessionService().idB();
+
+    private static Long idBlogger ;
 
 
-
+    public static void SetupB(Long i){
+        idBlogger=i;
+    }
     public void reg(Blogger bloggerDto) {
-       // Blogger blogger = dtoMapper.toEntity(bloggerDto);
-    //    System.out.println(blogger.toString());
         bloggerDto.setPassword(passwordEncoder.encode(bloggerDto.getPassword()));
         bloggerRepository.save(bloggerDto);
     }
@@ -60,6 +61,7 @@ public class BloggerService {
     public void comment(Comment c,Long idB,Long idP){
         Comment cnew = new Comment();
         cnew.setContent(c.getContent());
+
         cnew.setBlogger(bloggerRepository.findById(idB).orElse(null));
         Optional<Post> pp =  postRepository.findById(idP);
         if (pp.isEmpty()) {

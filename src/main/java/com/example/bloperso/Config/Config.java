@@ -1,9 +1,8 @@
 package com.example.bloperso.Config;
 
 
-import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.MyUserDetailsService;
-import com.example.bloperso.Service.SessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 
 import org.springframework.context.annotation.Bean;
@@ -13,14 +12,17 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.CompositeLogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.AntPathMatcher;
+
 
 @Configuration
 @EnableWebSecurity
-public class Config{
+public class Config {
     private final MyUserDetailsService userDetailsService;
 
     public Config(MyUserDetailsService userDetailsService) {
@@ -30,36 +32,36 @@ public class Config{
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/registration","/registration", "/login", "/logout")
+                    auth.requestMatchers("/registration","/registration", "/login")
                             .permitAll()
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                            .permitAll().requestMatchers("/")
+                            .permitAll().anyRequest()
                             .authenticated();
 
                 })
                 .sessionManagement(
                         s ->
-                                s.invalidSessionUrl("/login?expired")
+                                       s.invalidSessionUrl("/login?expired")
                                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                                        .maximumSessions(2)
-                                        .maxSessionsPreventsLogin(true))
+                                        .maximumSessions(1)
+                                        .maxSessionsPreventsLogin(false))
                 .formLogin(
                        form ->
                                form.loginPage("/login").defaultSuccessUrl("/",true)
                                        .permitAll()
                 )
 
-                .logout(
-                        logout ->
-                                logout
-                                        .deleteCookies("JSESSIONID")
-                                        .logoutUrl("/logout")
-                                        .logoutSuccessHandler(
-                                                ((request, response, authentication) -> {
-                                                    String redirectUrl = request.getHeader("Referer");
-                                                    response.sendRedirect(redirectUrl == null ? "/" : redirectUrl);
-                                                })))
+                .logout(logout ->
+                        logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  // Specify logout URL
+                                .logoutSuccessUrl("/login?logout")  // Redirect after successful logout
+                                .invalidateHttpSession(true)  // Invalidate session
+                                .deleteCookies("JSESSIONID")  // Delete cookies
+                                .permitAll()
+                )
+                .logout(Customizer.withDefaults())
                 .build();
     }
     @Bean
@@ -75,8 +77,5 @@ public class Config{
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
     }
-    @Bean
-   public SessionService sessionService(){
-        return new SessionService();
-    }
+
 }

@@ -1,35 +1,25 @@
 package com.example.bloperso.web;
 
-import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.PostService;
-import com.example.bloperso.Service.SessionService;
 import com.example.bloperso.dao.PostRepository;
-import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
 @Controller
-public class    PostController {
+public class  PostController {
 
     @Autowired
     BloggerService bloggerService;
@@ -39,12 +29,23 @@ public class    PostController {
     private PostService postService;
 
 
-    private Long idBlogger =  new SessionService().idB();
+    public void SetUpBlogger(){
+        Long id =  null;
+        idBlogger=id;
+        BloggerService.SetupB(id);
+        CommentController.SetupB(id);
+        UserController.SetupB(id);
+    }
+
+
+    private static Long idBlogger;
     @RequestMapping(value = "/")
     public String index(Model model){
+            //do session stuff
+            SetUpBlogger();
+            //index stuff
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);
-            model.addAttribute("image","images/img.jpg");
             model.addAttribute("featured",postService.Featured());
         return "index";
     }

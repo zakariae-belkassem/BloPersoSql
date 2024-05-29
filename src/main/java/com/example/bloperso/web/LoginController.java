@@ -31,8 +31,7 @@ public class LoginController {
 
     @Autowired
     private BloggerService bloggerService;
-    @Autowired
-    private DaoAuthenticationProvider daoAuthenticationProvider;
+
 
 
 
@@ -54,33 +53,6 @@ public class LoginController {
         model.addAttribute("success", true);
         return "redirect:/login";
     }
-//    @PostMapping("/authenticate")
-//    public String authenticate(HttpServletRequest request,
-//                               HttpServletResponse response,
-//                               RedirectAttributes redirectAttributes){
-//        String username=request.getParameter("username");
-//        String password = request.getParameter("password");
-//        System.out.println(password+"------"+username);
-//        Optional<Blogger> userEntity = Optional.ofNullable(bloggerService.getByUsername(username));
-//        System.out.println(userEntity.get().getPassword());
-//        if(userEntity.isEmpty()) {
-//            redirectAttributes.addAttribute("error","invalid username");
-//            return "redirect:/login";
-//        }
-//        UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.
-//                unauthenticated(username,password);
-//
-//        Authentication authentication = daoAuthenticationProvider.authenticate(token);
-//        SecurityContext context = SecurityContextHolder.createEmptyContext();
-//
-//        context.setAuthentication(authentication);
-//        new HttpSessionSecurityContextRepository().saveContext(context, request, response);
-//
-//
-//
-//
-//        redirectAttributes.addAttribute("success", "You have been logged in successfully");
-//        System.out.println("dkhel");
-//        return "redirect:/";
-//    }
+
+
 }
