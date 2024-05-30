@@ -7,6 +7,9 @@ import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.PostService;
 import com.example.bloperso.dao.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,9 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+
 import java.util.List;
+
 
 @Controller
 public class  PostController {
@@ -29,8 +34,14 @@ public class  PostController {
     private PostService postService;
 
 
+
     public void SetUpBlogger(){
-        Long id =  null;
+        String principalName ;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        principalName = authentication.getName();
+
+        Long id = bloggerService.getByUsername(principalName).getId();
+
         idBlogger=id;
         BloggerService.SetupB(id);
         CommentController.SetupB(id);
@@ -42,7 +53,7 @@ public class  PostController {
     @RequestMapping(value = "/")
     public String index(Model model){
             //do session stuff
-            SetUpBlogger();
+        SetUpBlogger();
             //index stuff
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);
@@ -60,7 +71,7 @@ public class  PostController {
 
     // Method to handle form submission and save post data
     @PostMapping("/add")
-    public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("visibilite") Visibilite visibilite, @RequestParam("file")MultipartFile file) {
+    public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("file")MultipartFile file) {
         try {
             Blob blob ;
             if (!file.isEmpty()) {
@@ -77,8 +88,8 @@ public class  PostController {
     @PostMapping(value = "/like")
     public String LikeP(@RequestParam(name = "id")Long id){
 
-        Boolean b =bloggerService.like(id,idBlogger);
-        System.out.println(id);
+        bloggerService.like(id,idBlogger);
+
         return "redirect:/";
     }
 //popular posts + if not connected show preview only -> on click loginPage + Sessions + Security
@@ -86,7 +97,7 @@ public class  PostController {
     @GetMapping(value = "/deleteP/{id}")
     public String removeP(@PathVariable Long id){
         bloggerService.removePost(id);
-        return "redirect : /";
+        return "redirect:/";
     }
 
     @GetMapping(value = "/ownPosts")

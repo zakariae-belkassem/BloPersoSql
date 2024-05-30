@@ -43,7 +43,7 @@
                     <h2 class="card-subtitle mb-3">Comments</h2>
                     <div th:each="comment : ${post.comments}">
                         <div class="mb-3">
-                            <div class="fw-bold" th:text="${comment.blogger.userName}">Commenter Name</div>
+                            <div class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</div>
                             <div th:text="${comment.content}">Comment Content</div>
                         </div>
                     </div>

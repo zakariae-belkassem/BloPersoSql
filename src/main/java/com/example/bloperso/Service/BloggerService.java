@@ -11,6 +11,7 @@ import com.example.bloperso.dto.BloggerDto;
 import com.example.bloperso.dto.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -61,6 +62,7 @@ public class BloggerService {
     public void comment(Comment c,Long idB,Long idP){
         Comment cnew = new Comment();
         cnew.setContent(c.getContent());
+
 
         cnew.setBlogger(bloggerRepository.findById(idB).orElse(null));
         Optional<Post> pp =  postRepository.findById(idP);

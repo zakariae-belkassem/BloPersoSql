@@ -9,6 +9,7 @@ import com.example.bloperso.dto.LoginDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -33,15 +34,29 @@ public class LoginController {
     private BloggerService bloggerService;
 
 
-
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.
+                isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
+    }
 
     @GetMapping("/login")
     public String Login() {
-        return "login";
+
+            if(isAuthenticated())   return "redirect:/";
+            return "login";
+
+
     }
 
     @GetMapping("/registration")
     public String registrationForm(Model model) {
+
+        if(isAuthenticated())   return "redirect:/";
+
         BloggerDto blogger = new BloggerDto();
         model.addAttribute("bloggerDto", blogger);
         return "register";

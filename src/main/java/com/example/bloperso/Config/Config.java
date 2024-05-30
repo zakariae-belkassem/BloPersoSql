@@ -34,34 +34,38 @@ public class Config {
         return httpSecurity
 
                 .authorizeHttpRequests(auth->{
-                    auth.requestMatchers("/registration","/registration", "/login")
+                    auth
+                            .requestMatchers("/registration","/registration", "/login","like","bookMark")
                             .permitAll()
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                            .permitAll().anyRequest()
+                            .permitAll()
+                            .anyRequest()
                             .authenticated();
 
                 })
                 .sessionManagement(
-                        s ->
-                                       s.invalidSessionUrl("/login?expired")
+                        s ->s
+                                          .invalidSessionUrl("/login?expired")
                                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                                         .maximumSessions(1)
                                         .maxSessionsPreventsLogin(false))
                 .formLogin(
                        form ->
-                               form.loginPage("/login").defaultSuccessUrl("/",true)
+                               form
+                                       .loginPage("/login").defaultSuccessUrl("/",true)
                                        .permitAll()
                 )
 
                 .logout(logout ->
                         logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  // Specify logout URL
-                                .logoutSuccessUrl("/login?logout")  // Redirect after successful logout
-                                .invalidateHttpSession(true)  // Invalidate session
-                                .deleteCookies("JSESSIONID")  // Delete cookies
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/login?logout")
+                                .invalidateHttpSession(true)
+                                .deleteCookies("JSESSIONID")
                                 .permitAll()
                 )
                 .logout(Customizer.withDefaults())
+
                 .build();
     }
     @Bean
