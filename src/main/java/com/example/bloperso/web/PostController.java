@@ -32,7 +32,7 @@ public class  PostController {
     private PostRepository postRepository ;
     @Autowired
     private PostService postService;
-
+    private static Long idBlogger;
 
 
     public void SetUpBlogger(){
@@ -49,7 +49,18 @@ public class  PostController {
     }
 
 
-    private static Long idBlogger;
+    // This method handles requests to display a post detail page
+    @GetMapping("/post/{postId}")
+    public String showPostDetail(@PathVariable("postId") Long postId, Model model) {
+
+        Post post = postService.getPostById(postId);
+
+        model.addAttribute("post", post);
+        model.addAttribute("image","images/img.jpg");
+        return "post"; // This corresponds to the name of your Thymeleaf template file
+    }
+
+
     @RequestMapping(value = "/")
     public String index(Model model){
             //do session stuff

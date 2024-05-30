@@ -24,7 +24,7 @@ public class CommentController {
     BloggerService bloggerService ;
     @PostMapping(value = "/addCom")
     public String  AddCom(@RequestParam(name = "id") Long id, @ModelAttribute Comment cmt){
-        System.out.println(id);
+
         bloggerService.comment(cmt,idBlogger,id);
 
         return "redirect:/post/"+id;

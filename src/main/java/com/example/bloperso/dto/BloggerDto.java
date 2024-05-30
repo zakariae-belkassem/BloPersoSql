@@ -15,7 +15,6 @@ public class BloggerDto {
     private String fullName;
     private String phoneNumber;
     private String password;
-
     private String adresse;
     private List<BloggerDto> friends ;
     private String email;

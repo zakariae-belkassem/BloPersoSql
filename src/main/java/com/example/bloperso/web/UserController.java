@@ -26,9 +26,7 @@ public class UserController {
     public static void SetupB(Long i){
         idBlogger=i;
     }
-    //handling register and login
-    //------------------
-    //handle profile managment (modifications and what not )
+
 
 
     @PostMapping(value = "/bookMark")
@@ -59,14 +57,13 @@ public class UserController {
     @RequestMapping(value="/profile/{id}")
     public String profile(@PathVariable Long id, Model model){
        BloggerDto b = bloggerService.getBloggerDto(idBlogger);
-        System.out.println(b);
+
         List<Post> postList = bloggerService.ownPosts(idBlogger);
        model.addAttribute("blogger",b);
        model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
        model.addAttribute("cat" , PostCategorie.values());
        model.addAttribute("catCount",bloggerService.getCountC(idBlogger));
-        bloggerService.getCountC(idBlogger).forEach((k,v)-> System.out.println(k+"---"+v));
-        System.out.println(bloggerService.getCountC(idBlogger));
+
        return "profile";
     }
 
