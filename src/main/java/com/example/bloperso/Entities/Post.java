@@ -6,13 +6,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.List;
 
 @Data @Entity @AllArgsConstructor @NoArgsConstructor
-public class Post {
+public class Post implements Serializable{
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Transient
     private int nbrComment ;
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
