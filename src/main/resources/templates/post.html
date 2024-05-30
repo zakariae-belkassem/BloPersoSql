@@ -34,11 +34,11 @@
             <!-- Single post -->
             <article class="card mb-4">
 
-                <figure class="mb-4"><img class="img-fluid rounded" th:src="${image}" alt="..." /></figure>
+                <figure class="mb-4"><img class="img-fluid rounded" th:src="'data:image/jpeg;base64,' + ${post.img}" alt="..." /></figure>
                 <div class="card-body">
                     <!-- Post content -->
                     <h1 class="card-title fw-bolder mb-3" th:text="${post.title}">Post Title</h1>
-                    <p class="card-text" th:text="${post.corpsPost}">Post Content</p>
+                    <p class="card-text" th:utext="${post.corpsPost}">Post Content</p>
                     <!-- Post comments -->
                     <h2 class="card-subtitle mb-3">Comments</h2>
                     <div th:each="comment : ${post.comments}">
