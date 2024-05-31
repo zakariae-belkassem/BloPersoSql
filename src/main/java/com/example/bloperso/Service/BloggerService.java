@@ -1,17 +1,12 @@
 package com.example.bloperso.Service;
 
-import com.example.bloperso.Entities.Blogger;
-import com.example.bloperso.Entities.Comment;
-import com.example.bloperso.Entities.Post;
-import com.example.bloperso.Entities.PostCategorie;
+import com.example.bloperso.Entities.*;
 import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.CommentRepository;
 import com.example.bloperso.dao.PostRepository;
-import com.example.bloperso.dto.BloggerDto;
-import com.example.bloperso.dto.DtoMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.session.SessionRepository;
 import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -25,8 +20,7 @@ import java.util.Optional;
 public class BloggerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private DtoMapper dtoMapper;
+
     @Autowired
     private BloggerRepository bloggerRepository;
     @Autowired
@@ -120,13 +114,23 @@ public class BloggerService {
                 .get()
                 .getBookMarks();
     }
-    public void AddFriend(Long idRe)
+    public String AddFriendReq(Long idRe)
     {
+
         Blogger b = bloggerRepository.findById(idRe).orElse(null);
         Blogger sen = bloggerRepository.findById(idBlogger).orElse(null);
-        if(b.getFriendRequest().contains(sen)) b.RemoveRequest(sen);
-        b.AddRequest(sen);
+        if(b.getFriends().contains(sen)) {
+            System.out.println("already friends lol");
+            return "already friends lol";
+        }
+        if(b.getFriendRequest().contains(sen)) {b.RemoveRequest(sen);
         bloggerRepository.save(b);
+        return "removed friend request";
+        } else {
+            b.AddRequest(sen);
+            bloggerRepository.save(b);
+            return "added friend request";
+        }
 
     }
 
@@ -137,9 +141,7 @@ public class BloggerService {
     public List<Post> ownPosts(Long idB){
         return postRepository.findAll().stream().filter(e->e.getBlogger().getId().equals(idB)).toList();
     }
-    public BloggerDto getBloggerDto(Long id){
-        return dtoMapper.toDto(bloggerRepository.findById(id).orElse(null));
-    }
+
     public Map<String,Integer> getCountC(Long id){
         Map<String,Integer> count = new HashMap<>();
         for (PostCategorie c : PostCategorie.values()){
@@ -149,4 +151,26 @@ public class BloggerService {
 
         return count;
     }
+
+    public void refuseRequest(Long idB){
+        Blogger b = bloggerRepository.findById(idB).orElse(null);
+        Blogger sen = bloggerRepository.findById(idBlogger).orElse(null);
+        b.RemoveRequest(sen);
+        sen.RemoveRequest(b);
+        bloggerRepository.save(b);
+        bloggerRepository.save(sen);
+    }
+
+
+    public void becomeFriends(Long idB){
+        Blogger b = bloggerRepository.findById(idB).orElse(null);
+        Blogger sen = bloggerRepository.findById(idBlogger).orElse(null);
+        b.addFriend(sen);
+        sen.addFriend(b);
+        sen.RemoveRequest(b);
+        b.RemoveRequest(sen);
+        bloggerRepository.save(b);
+        bloggerRepository.save(sen);
+    }
+
 }

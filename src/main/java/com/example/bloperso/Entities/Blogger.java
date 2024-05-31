@@ -47,16 +47,16 @@ public class Blogger implements UserDetails, Serializable {
     private String adresse ;
     @Column(name = "email")
     private String email;
-    @OneToMany(mappedBy = "blogger",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "blogger")
     private List<Comment> comment ;
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Post> bookMarks ;
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany()
     private List<Blogger> friendRequest;
 
-    @OneToMany(mappedBy = "blogger",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "blogger")
     private List<Post> posts;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Post> likedPosts;
 
     private String ROLE = "ROLE_USER";
@@ -83,6 +83,12 @@ public class Blogger implements UserDetails, Serializable {
     }
     public void RemoveRequest(Blogger b ){
         friendRequest.remove(b);
+    }
+    public void addFriend(Blogger b){
+        friends.add(b);
+    }
+    public void removeFriend(Blogger b){
+        friends.remove(b);
     }
 
     public void addLikedpost(Post p){

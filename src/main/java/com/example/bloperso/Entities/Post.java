@@ -33,6 +33,8 @@ public class Post implements Serializable{
     @Enumerated(EnumType.STRING)
     private PostCategorie theme;
 
+    @Column(name = "subtitle",nullable = true)
+    private String subtitle;
 
     @Column(name="visibilite",nullable = false)
     private Visibilite visibilite ;

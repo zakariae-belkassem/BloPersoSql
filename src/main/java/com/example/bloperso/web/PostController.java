@@ -57,6 +57,7 @@ public class  PostController {
 
         model.addAttribute("post", post);
         model.addAttribute("image","images/img.jpg");
+
         return "post";
     }
 
@@ -69,6 +70,7 @@ public class  PostController {
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);
             model.addAttribute("featured",postService.Featured());
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
         return "index";
     }
 
@@ -117,15 +119,23 @@ public class  PostController {
         model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
         return "CrudPost";
     }
+    @GetMapping(value = "/ownPosts/{id}")
+    public String ownPp(@PathVariable Long id,Model model){
+
+        model.addAttribute("poste",bloggerService.ownPosts(id));
+        return "index";
+    }
     @GetMapping(value = "/modP/{id}")
     public String Modifier(@PathVariable Long id,Model model){
        model.addAttribute("post", postService.getPostById(id));
         return "modifier";
     }
     @PostMapping (value = "/modP")
-    public String Modifier(@ModelAttribute("post") Post p ){
-        postService.createPost(p);
-        return "redirect:/";
+    public String Modifier(@ModelAttribute("post") Post p ,@RequestParam(name = "file") MultipartFile file ){
+
+
+        postService.modifyPost(p,file,idBlogger);
+        return "redirect:/post/"+p.getId();
     }
 
 

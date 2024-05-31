@@ -1,11 +1,12 @@
 package com.example.bloperso.web;
 
+import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Service.BloggerService;
-import com.example.bloperso.dto.BloggerDto;
-import com.example.bloperso.dto.DtoMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,7 @@ import java.util.List;
 
 @Controller
 public class UserController {
-    @Autowired
-    private DtoMapper dtoMapper;
+
     @Autowired
    private BloggerService bloggerService;
 
@@ -43,11 +43,12 @@ public class UserController {
         model.addAttribute("image","images/img.jpg");
         return "indexx";
     }
-    @RequestMapping(value = "/addFriend")
-    public String AddFriend(@RequestParam(name = "id")Long id){
-        bloggerService.AddFriend(id);
+    @RequestMapping(value = "/addFriendRequest/{id}")
+    public String AddFriend(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer, @PathVariable Long id , Model model) {
+        String message = bloggerService.AddFriendReq(id);
 
-        return "redirect:/";
+         model.addAttribute("message" , message);
+        return "redirect:"+referrer;
     }
     @RequestMapping(value = "/myPosts")
     public String myPosts(Model model){
@@ -56,16 +57,28 @@ public class UserController {
     }
     @RequestMapping(value="/profile/{id}")
     public String profile(@PathVariable Long id, Model model){
-       BloggerDto b = bloggerService.getBloggerDto(idBlogger);
 
-        List<Post> postList = bloggerService.ownPosts(idBlogger);
+        Blogger b  = bloggerService.getBloggerInfo(id);
        model.addAttribute("blogger",b);
-       model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
+       model.addAttribute("posts",bloggerService.ownPosts(id));
        model.addAttribute("cat" , PostCategorie.values());
-       model.addAttribute("catCount",bloggerService.getCountC(idBlogger));
-
+       model.addAttribute("catCount",bloggerService.getCountC(id));
+        model.addAttribute("message","welcome to my page");
        return "profile";
     }
+
+    @GetMapping("/addF/{id}")
+    public String addFriend(@PathVariable Long id){
+        bloggerService.becomeFriends(id);
+        return  "redirect:/" ;
+    }
+
+    @GetMapping("/delF/{id}")
+    public String delFriendRequest(@PathVariable Long id){
+        bloggerService.refuseRequest(id);
+        return  "redirect:/" ;
+    }
+
 
 
 

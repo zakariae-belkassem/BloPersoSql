@@ -17,4 +17,5 @@ public class MyUserDetailsService implements UserDetailsService {
         return bloggerRepository.findBloggerByUsername(username);
     }
 
+
 }

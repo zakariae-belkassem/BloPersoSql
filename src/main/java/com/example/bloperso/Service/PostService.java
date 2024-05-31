@@ -1,20 +1,30 @@
 package com.example.bloperso.Service;
 
 import com.example.bloperso.Entities.Post;
+import com.example.bloperso.Entities.PostCategorie;
+import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.PostRepository;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostService {
     
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private BloggerRepository bloggerRepository;
+    @Setter
+    private Long idBlogger ;
 
     public List<Post> getAll(){
         return postRepository.findAll();
@@ -45,5 +55,24 @@ public class PostService {
 
     public Post Featured(){
         return postRepository.findById(1L).orElse(null);
+    }
+    public List<Post> getPostsByCategory(PostCategorie category){
+        return postRepository.findAll().stream().filter(e->e.getTheme().equals(category)).toList();
+    }
+
+    public void modifyPost(Post p, MultipartFile file, Long idBlogger) {
+
+        if (!file.isEmpty()) {
+            Blob blob ;
+            try {
+                blob = new SerialBlob(file.getBytes());
+                p.setImg(blob);
+            } catch (SQLException | IOException e) {
+               //
+            }
+
+        }
+        p.setBlogger(bloggerRepository.findById(idBlogger).orElse(null));
+        postRepository.save(p);
     }
 }

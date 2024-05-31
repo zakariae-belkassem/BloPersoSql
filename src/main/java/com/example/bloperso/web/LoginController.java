@@ -3,9 +3,7 @@ package com.example.bloperso.web;
 
 import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Service.BloggerService;
-import com.example.bloperso.dto.BloggerDto;
-import com.example.bloperso.dto.LoginDto;
-import com.example.bloperso.dto.LoginDto;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +55,7 @@ public class LoginController {
 
         if(isAuthenticated())   return "redirect:/";
 
-        BloggerDto blogger = new BloggerDto();
+        Blogger blogger = new Blogger();
         model.addAttribute("bloggerDto", blogger);
         return "register";
     }
