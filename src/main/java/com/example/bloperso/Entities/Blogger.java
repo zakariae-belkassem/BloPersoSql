@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data@NoArgsConstructor@AllArgsConstructor@Entity@Table(name = "Blogger")
@@ -36,6 +38,8 @@ public class Blogger implements UserDetails, Serializable {
     @Transient
     private int nbrPosts = 0;
 
+
+
     @OneToMany(fetch = FetchType.EAGER)
     private List<Blogger> friends;
 
@@ -55,6 +59,10 @@ public class Blogger implements UserDetails, Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Post> likedPosts;
 
+    private String ROLE = "ROLE_USER";
+
+
+
     public Blogger(String un, String fn, String pass, String phone_number,  String a, String email) {
         username = un;
         fullName = fn;
@@ -62,6 +70,7 @@ public class Blogger implements UserDetails, Serializable {
         phoneNumber = phone_number;
         adresse = a;
         this.email = email;
+        ROLE="USER";
     }
     public void AddBookMark(Post p ){
         bookMarks.add(p);
@@ -85,7 +94,7 @@ public class Blogger implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return Collections.singleton(new SimpleGrantedAuthority(ROLE));
     }
 
     @Override

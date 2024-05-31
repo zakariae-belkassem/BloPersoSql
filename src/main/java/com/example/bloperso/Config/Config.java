@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.AntPathMatcher;
 
@@ -32,30 +33,39 @@ public class Config {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
+            return httpSecurity
 
-                .authorizeHttpRequests(auth->{
-                    auth
-                            .requestMatchers("/registration","/registration", "/login","like","bookMark")
-                            .permitAll()
-                            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                            .permitAll()
-                            .anyRequest()
-                            .authenticated();
+                    .authorizeHttpRequests(auth->{
+                        auth
+                                .requestMatchers("/registration","/registration", "/login")
 
-                })
-                .sessionManagement(
-                        s ->s
-                                          .invalidSessionUrl("/login?expired")
-                                        .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
-                                        .maximumSessions(1)
-                                        .maxSessionsPreventsLogin(false))
-                .formLogin(
-                       form ->
-                               form
-                                       .loginPage("/login").defaultSuccessUrl("/",true)
-                                       .permitAll()
+                                .permitAll()
+
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                                .permitAll()
+                                .anyRequest()
+
+                                .hasRole("USER")
+
+                                ;
+
+                    })
+                .sessionManagement(s ->
+                        s
+                                .sessionFixation()
+                                .migrateSession()
+                                .invalidSessionUrl("/login?expired")
+                                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(true)
                 )
+
+                .formLogin(form ->
+                        form
+                                .loginPage("/login")
+                                .defaultSuccessUrl("/",true)
+                                .failureUrl("/login?error")
+                                .permitAll())
 
                 .logout(logout ->
                         logout
@@ -65,8 +75,10 @@ public class Config {
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
                 )
-                .logout(Customizer.withDefaults())
+
                 .csrf(AbstractHttpConfigurer::disable)
+
+
                 .build();
     }
     @Bean

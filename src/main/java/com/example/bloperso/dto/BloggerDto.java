@@ -18,5 +18,6 @@ public class BloggerDto {
     private String adresse;
     private List<BloggerDto> friends ;
     private String email;
+    private String ROLE = "USER";
 
 }

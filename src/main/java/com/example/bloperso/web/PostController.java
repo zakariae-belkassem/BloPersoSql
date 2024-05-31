@@ -57,7 +57,7 @@ public class  PostController {
 
         model.addAttribute("post", post);
         model.addAttribute("image","images/img.jpg");
-        return "post"; // This corresponds to the name of your Thymeleaf template file
+        return "post";
     }
 
 
