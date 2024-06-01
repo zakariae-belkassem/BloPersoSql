@@ -149,7 +149,30 @@ public class  PostController {
         postService.modifyPost(p,file,idBlogger);
         return "redirect:/post/"+p.getId();
     }
+    @GetMapping(value = "/categorie/{topic}")
+    public String showTopic(Model model , @PathVariable String topic) {
 
+        model.addAttribute("poste",postService.FilterByTopic(topic));
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        model.addAttribute("cat" , PostCategorie.values());
+        model.addAttribute("featured",postService.Featured());
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        if (bloggerRepository.findById(idBlogger).get().getFriends()!=null) model.addAttribute("hasReq",true);
+        else model.addAttribute("hasReq",false);
+
+        return "index";
+    }
+    @GetMapping(value = "/?{search}")
+    public String search(@PathVariable(value = "param") String search,Model model){
+        List<Post> result = postService.Searched(search);
+        model.addAttribute("poste", result);
+        model.addAttribute("featured",postService.Featured());
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        if (bloggerRepository.findById(idBlogger).get().getFriends()!=null) model.addAttribute("hasReq",true);
+        else model.addAttribute("hasReq",false);
+        model.addAttribute("cat",PostCategorie.values());
+        return "index";
+    }
 
 }
 

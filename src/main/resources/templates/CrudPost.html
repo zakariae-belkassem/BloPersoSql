@@ -54,8 +54,8 @@
         <td th:text="${post.theme}"></td>
         <td th:text="${post.visibilite}">89 Chiaroscuro Rd, Portland, USA</td>
 
-        <td>
-          <a th:href="@{'/modP/'+${post.id}}" class="edit" data-toggle="modal"><i class="fa-solid fa-pen-to-square"></i></a>
+        <td style="">
+          <a style="margin-right: 25px" th:href="@{'/modP/'+${post.id}}" class="edit" data-toggle="modal"><i class="fa-solid fa-pen-to-square"></i></a>
           <a th:href="@{'/deleteP/'+${post.id}}" class="delete" data-toggle="modal"><i class="fa-solid fa-trash"></i></a>
         </td>
       </tr>
@@ -75,3 +75,24 @@
     return confirm("Are you sure you want to delete this post?");
   }
 </script>
+<style>
+  body{
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-image: url("https://img.freepik.com/free-vector/gradient-white-monochrome-background_23-2149001473.jpg?t=st=1717241056~exp=1717244656~hmac=6dcae9b929ea6500394e91c216eee53e1bce5f64d13cc786ba05f587738dbd61&w=2000");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+  }
+  .table{
+    margin-top: 7vh;
+    border: solid;
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 10px;
+    border: 1px solid black;
+
+  }
+</style>
