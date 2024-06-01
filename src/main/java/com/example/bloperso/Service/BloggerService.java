@@ -135,7 +135,17 @@ public class BloggerService {
     }
 
     public void removePost(Long idP ){
-        if (postRepository.findById(idP).isPresent()) postRepository.deleteById(idP);
+        if (postRepository.findById(idP).isPresent()) {
+            Post post = postRepository.findById(idP).orElse(null);
+            for (Blogger liker : post.getLikers()) {
+                liker.getLikedPosts().remove(post);
+                bloggerRepository.save(liker); // Save changes to the liker
+            }
+//            Blogger b = bloggerRepository.findById(idBlogger).orElse(null);
+//            b.removePost(post);
+//            bloggerRepository.save(b);
+            postRepository.deleteById(idP);
+        }
     }
 
     public List<Post> ownPosts(Long idB){

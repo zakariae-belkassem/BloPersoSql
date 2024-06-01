@@ -8,6 +8,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <script src="https://kit.fontawesome.com/38996065ef.js" crossorigin="anonymous"></script>
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -101,7 +102,7 @@
 
 </div>
 <!-- Footer-->
-<div th:replace="fragments/nav :: footer"></div>
+<div class="footer" th:replace="fragments/nav :: footer"></div>
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
@@ -115,4 +116,14 @@
         height: 15vw;
         object-fit: cover;
     }
+
+     .footer {
+         position: fixed;
+         left: 0;
+         bottom: 0;
+         width: 100%;
+         background-color: red;
+         color: white;
+         text-align: center;
+     }
 </style>
