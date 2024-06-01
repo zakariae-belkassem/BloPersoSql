@@ -42,7 +42,7 @@ public class UserController {
         List<Post> posts = bloggerService.Bookmarked();
         model.addAttribute("poste",posts);
         model.addAttribute("image","images/img.jpg");
-        return "indexx";
+        return "index";
     }
     @RequestMapping(value = "/addFriendRequest/{id}")
     public String AddFriend(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer, @PathVariable Long id , Model model) {

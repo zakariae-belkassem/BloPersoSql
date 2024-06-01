@@ -39,7 +39,7 @@ public class PostService {
         String[] words = keywords.split("\\s+");
         for (String word : words) {
             for (Post p : l) {
-                if (p.getCorpsPost().contains(word) || p.getTitle().contains(word) || !result.contains(p))
+                if (p.getCorpsPost().contains(word) || p.getTitle().contains(word) || !result.contains(p)||p.getBlogger().getUsername().contains(word))
                     result.add(p);
             }
         }
@@ -55,6 +55,9 @@ public class PostService {
 
     public Post Featured(){
         return postRepository.findById(1L).orElse(null);
+    }
+    public List<Post> FilterByTopic(String topic){
+        return postRepository.findAll().stream().filter(e-> e.getTheme().equals(PostCategorie.valueOf(topic))).toList();
     }
     public List<Post> getPostsByCategory(PostCategorie category){
         return postRepository.findAll().stream().filter(e->e.getTheme().equals(category)).toList();
