@@ -109,6 +109,7 @@ public class BloggerService {
 
 
     public List<Post> Bookmarked(){
+        System.out.print(idBlogger);
         return bloggerRepository.
                 findById(idBlogger)
                 .get()

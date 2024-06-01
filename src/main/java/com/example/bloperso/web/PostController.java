@@ -65,12 +65,14 @@ public class  PostController {
     @RequestMapping(value = "/")
     public String index(Model model){
             //do session stuff
-        SetUpBlogger();
+            SetUpBlogger();
             //index stuff
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts);
             model.addAttribute("featured",postService.Featured());
         model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+            model.addAttribute("cat" , PostCategorie.values());
+
         return "index";
     }
 
@@ -80,6 +82,14 @@ public class  PostController {
         model.addAttribute("categories", PostCategorie.values());
         model.addAttribute("visibilite",Visibilite.values());
         return "addPost";
+    }
+    @GetMapping(value = "/categorie/{topic}")
+    public String showTopic(Model model , @PathVariable String topic) {
+
+        model.addAttribute("poste",postService.FilterByTopic(topic));
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        model.addAttribute("cat" , PostCategorie.values());
+        return "index";
     }
 
     // Method to handle form submission and save post data
@@ -136,6 +146,12 @@ public class  PostController {
 
         postService.modifyPost(p,file,idBlogger);
         return "redirect:/post/"+p.getId();
+    }
+    @GetMapping(value = "/?{search}")
+    public String search(@PathVariable(value = "param") String search,Model model){
+        List<Post> result = postService.Searched(search);
+        model.addAttribute("poste", result);
+        return "index";
     }
 
 
