@@ -109,7 +109,7 @@ public class BloggerService {
 
 
     public List<Post> Bookmarked(){
-        System.out.print(idBlogger);
+
         return bloggerRepository.
                 findById(idBlogger)
                 .get()
@@ -121,7 +121,7 @@ public class BloggerService {
         Blogger b = bloggerRepository.findById(idRe).orElse(null);
         Blogger sen = bloggerRepository.findById(idBlogger).orElse(null);
         if(b.getFriends().contains(sen)) {
-            System.out.println("already friends lol");
+
             return "already friends lol";
         }
         if(b.getFriendRequest().contains(sen)) {b.RemoveRequest(sen);

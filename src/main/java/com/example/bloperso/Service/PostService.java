@@ -23,15 +23,12 @@ public class PostService {
     private PostRepository postRepository;
     @Autowired
     private BloggerRepository bloggerRepository;
-    @Setter
-    private Long idBlogger ;
+
 
     public List<Post> getAll(){
         return postRepository.findAll();
     }
-    public List<Post> getRecentPosts(int howMuch){
-        return postRepository.findAll().subList(0,Math.min(postRepository.findAll().size(),howMuch));
-    }
+
     
     public List<Post> Searched(String keywords) {
         List<Post> l = postRepository.findAll();
@@ -59,9 +56,7 @@ public class PostService {
     public List<Post> FilterByTopic(String topic){
         return postRepository.findAll().stream().filter(e-> e.getTheme().equals(PostCategorie.valueOf(topic))).toList();
     }
-    public List<Post> getPostsByCategory(PostCategorie category){
-        return postRepository.findAll().stream().filter(e->e.getTheme().equals(category)).toList();
-    }
+
 
     public void modifyPost(Post p, MultipartFile file, Long idBlogger) {
 
