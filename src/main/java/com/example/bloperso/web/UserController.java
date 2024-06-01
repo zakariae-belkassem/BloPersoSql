@@ -64,7 +64,14 @@ public class UserController {
        model.addAttribute("cat" , PostCategorie.values());
        model.addAttribute("catCount",bloggerService.getCountC(id));
         model.addAttribute("message","welcome to my page");
+        model.addAttribute("Lblogger",bloggerService.getBloggerInfo(idBlogger));
        return "profile";
+    }
+
+    @RequestMapping(value = "/myprofile")
+    public String myProfile(Model model){
+        model.addAttribute("Lblogger",bloggerService.getBloggerInfo(idBlogger));
+        return "redirect:/profile/"+idBlogger;
     }
 
     @GetMapping("/addF/{id}")

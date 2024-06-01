@@ -54,7 +54,7 @@ public class Blogger implements UserDetails, Serializable {
     @OneToMany()
     private List<Blogger> friendRequest;
 
-    @OneToMany(mappedBy = "blogger")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "blogger",orphanRemoval = true)
     private List<Post> posts;
     @ManyToMany
     private List<Post> likedPosts;
@@ -140,5 +140,9 @@ public class Blogger implements UserDetails, Serializable {
                 ", adresse='" + adresse + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public void removePost(Post post) {
+        posts.remove(post);
     }
 }

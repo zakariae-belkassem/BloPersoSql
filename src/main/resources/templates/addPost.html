@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
     <title>Add Post</title>
     <!-- Bootstrap CSS -->
@@ -16,8 +18,18 @@
             window.parent.postMessage(CKEDITOR.instances.CK1.getData(), "*");
         }
     </script>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <script src="https://kit.fontawesome.com/38996065ef.js" crossorigin="anonymous"></script>
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </head>
 <body>
+<div th:replace="fragments/nav :: navbar"></div>
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-8 offset-md-2">
@@ -28,6 +40,12 @@
                     <label for="title">Title:</label>
                     <input name="title" type="text" class="form-control" id="title" placeholder="Enter title" required>
                 </div>
+                <!-- Sub Title Input -->
+                <div class="form-group">
+                    <label for="subtitle"> Sub Title:</label>
+                    <input name="subtitle" type="text" class="form-control" id="subtitle" placeholder="Enter sub title" required>
+                </div>
+
                 <!-- Content Textarea -->
                 <div class="form-group">
                     <label for="corpsPost">Content:</label>
@@ -66,6 +84,7 @@
         </div>
     </div>
 </div>
+<div class="footer" th:replace="fragments/nav :: footer"></div>
 
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
