@@ -11,26 +11,26 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <style>
 
+        body{
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://img.freepik.com/free-vector/gradient-white-monochrome-background_23-2149001473.jpg?t=st=1717241056~exp=1717244656~hmac=6dcae9b929ea6500394e91c216eee53e1bce5f64d13cc786ba05f587738dbd61&w=2000");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
+    </style>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="#!">BlogO</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">Explore</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login">Sign in</a></li>
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Blog</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<div th:replace="fragments/nav :: navbar"></div>
 
-<div class="bg-light py-3 py-md-5">
+
+<div class=" py-3 py-md-5">
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col-12 col-md-11 col-lg-8 col-xl-7 col-xxl-6">

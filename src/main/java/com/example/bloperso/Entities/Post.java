@@ -5,15 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
-@Data @Entity @AllArgsConstructor @NoArgsConstructor
+@Data @Entity @AllArgsConstructor @NoArgsConstructor@DynamicUpdate@DynamicInsert
 public class Post implements Serializable{
 
     @Serial
@@ -32,6 +35,8 @@ public class Post implements Serializable{
     @Column(name="theme",nullable=false)
     @Enumerated(EnumType.STRING)
     private PostCategorie theme;
+    @Temporal(TemporalType.DATE)
+    private Date creationDate;
 
     @Column(name = "subtitle",nullable = true)
     private String subtitle;

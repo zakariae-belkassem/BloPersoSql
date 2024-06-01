@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class UserController {
@@ -65,7 +66,19 @@ public class UserController {
        model.addAttribute("catCount",bloggerService.getCountC(id));
         model.addAttribute("message","welcome to my page");
         model.addAttribute("Lblogger",bloggerService.getBloggerInfo(idBlogger));
+        if (Objects.equals(idBlogger, id)) model.addAttribute("isEditable",true);
+        else model.addAttribute("isEditable",false);
        return "profile";
+    }
+    @PostMapping("/profile/update")
+    public String updateP(@RequestParam(name = "fullName" ) String fn ,@RequestParam(name = "adresse") String ad ,@RequestParam(name="email") String un ,@RequestParam(name="phoneNumber") String pn , Model model){
+       Blogger b = bloggerService.getBloggerInfo(idBlogger);
+       b.setAdresse(ad);
+       b.setEmail(un);
+       b.setFullName(fn);
+       b.setPhoneNumber(pn);
+       bloggerService.update(b);
+       return "redirect:/profile/"+idBlogger;
     }
 
     @RequestMapping(value = "/myprofile")

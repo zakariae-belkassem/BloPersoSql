@@ -11,7 +11,7 @@
 <body>
 
 <div th:replace="fragments/nav :: navbar"></div>
-<section style="background-color: #eee;">
+<section style="background: transparent;">
     <div class="container py-5 min-vh-100">
 
 
@@ -24,9 +24,9 @@
                         <h5 class="my-3" ></h5>
                         <p class="text-muted mb-1" th:text="${blogger.username}"></p>
                         <p class="text-muted mb-4" ></p>
-                        <div class="d-flex styled-div mb-2">
+                        <div class=" styled-div mb-2 " >
                             <button th:if="${Lblogger.id != blogger.id}" th:onclick="|window.location.href='/addFriendRequest/'+${blogger.id}|" type="button" class="btn btn-primary"><i class="fas fa-user me-2"></i>Add friend</button>
-                            <div class="alert alert-success" th:text="${message}"></div>
+                            <div class="alert alert-success message " th:text="${message}"></div>
                         </div>
                     </div>
                 </div>
@@ -43,46 +43,58 @@
                 </div>
             </div>
             <div class="col-lg-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Full Name</p>
+                <form th:action="@{/profile/update}" th:method="post" >
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" th:if="${!isEditable}" th:text="${blogger.fullName}">Full Name</p>
+                                    <input name="fullName" id="fullNmae" type="text" class="form-control" th:if="${isEditable}" th:value="${blogger.fullName}" />
+                                </div>
                             </div>
-                            <div class="col-sm-9">
-                                <p class="text-muted mb-0" th:text="${blogger.fullName}">lijbi</p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" th:if="${!isEditable}" th:text="${blogger.email}">Email</p>
+                                    <input name="email" id="email" type="email" class="form-control" th:if="${isEditable}" th:value="${blogger.email}" />
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Email</p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Phone</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" th:if="${!isEditable}" th:text="${blogger.phoneNumber}">Phone Number</p>
+                                    <input name="phoneNumber" id="phoneNumber" type="tel" class="form-control" th:if="${isEditable}" th:value="${blogger.phoneNumber}" />
+                                </div>
                             </div>
-                            <div class="col-sm-9">
-                                <p class="text mb-0" th:text="${blogger.email}"></p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0" th:if="${!isEditable}" th:text="${blogger.adresse}">Address</p>
+                                    <input name="adresse" id="adresse" type="text" class="form-control" th:if="${isEditable}" th:value="${blogger.adresse}" />
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Phone</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <p class="text-muted mb-0" th:text="${blogger.phoneNumber}">(097) 234-5678</p>
-                            </div>
-                        </div>
-                        <hr>
-
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <p class="mb-0">Address</p>
-                            </div>
-                            <div class="col-sm-9">
-                                <p class="text-muted mb-0" th:text="${blogger.adresse}">Bay Area, San Francisco, CA</p>
+                            <hr>
+                            <div class="row" th:if="${isEditable}">
+                                <div class="col-sm-12 text-right">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
+
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="card mb-4 mb-md-0">
@@ -150,15 +162,30 @@
     }
     .styled-div {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         margin-bottom: 10px;
     }
-    .styled-div button {
-        flex: 1;
+    .styled-div alert-success {
+        margin-top: 10px;
     }
-    .styled-div .alert {
-        flex: 2;
-        margin-left: 10px;
+
+</style>
+<style>
+    body{
+
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-image: url("https://img.freepik.com/free-vector/paper-style-white-monochrome-background_23-2149016267.jpg?t=st=1717241812~exp=1717245412~hmac=5f6834533f043c7abf9c1f05136b7bdb646a9ccc4846455706d095932428fbfb&w=2000");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
     }
+    .card-img-top{
+        height: 200px;
+    }
+
+
 </style>

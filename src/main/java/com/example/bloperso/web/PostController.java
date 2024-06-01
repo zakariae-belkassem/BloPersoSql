@@ -1,10 +1,12 @@
 package com.example.bloperso.web;
 
+import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 import com.example.bloperso.Service.PostService;
+import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -33,6 +35,8 @@ public class  PostController {
     @Autowired
     private PostService postService;
     private static Long idBlogger;
+    @Autowired
+    private BloggerRepository bloggerRepository;
 
 
     public void SetUpBlogger(){
@@ -54,9 +58,11 @@ public class  PostController {
     public String showPostDetail(@PathVariable("postId") Long postId, Model model) {
 
         Post post = postService.getPostById(postId);
-
+        Blogger b =bloggerRepository.findById(idBlogger).orElse(null);
         model.addAttribute("post", post);
         model.addAttribute("image","images/img.jpg");
+        model.addAttribute("Lblogger",b);
+        model.addAttribute("isFriends",(b.getFriends().contains(post.getBlogger())));
 
         return "post";
     }
@@ -71,6 +77,8 @@ public class  PostController {
             model.addAttribute("poste",posts);
             model.addAttribute("featured",postService.Featured());
         model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        if (bloggerRepository.findById(idBlogger).get().getFriends()!=null) model.addAttribute("hasReq",true);
+        else model.addAttribute("hasReq",false);
         return "index";
     }
 
@@ -131,9 +139,13 @@ public class  PostController {
         return "modifier";
     }
     @PostMapping (value = "/modP")
-    public String Modifier(@ModelAttribute("post") Post p ,@RequestParam(name = "file") MultipartFile file ){
-
-
+    public String Modifier(@RequestParam(name = "title") String t ,@RequestParam(name = "subtitle") String st,@RequestParam(name = "corpsPost") String c,@RequestParam(name = "theme") PostCategorie cat , @RequestParam(name = "visibilite") Visibilite v , @RequestParam(name = "id") Long id,@RequestParam(name = "file") MultipartFile file ){
+        Post p = postService.getPostById(id);
+        p.setTitle(t);
+        p.setSubtitle(st);
+        p.setCorpsPost(c);
+        p.setTheme(cat);
+        p.setVisibilite(v);
         postService.modifyPost(p,file,idBlogger);
         return "redirect:/post/"+p.getId();
     }

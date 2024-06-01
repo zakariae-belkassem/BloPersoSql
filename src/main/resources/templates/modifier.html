@@ -16,17 +16,29 @@
             window.parent.postMessage(CKEDITOR.instances.CK1.getData(), "*");
         }
     </script>
+    <script src="https://kit.fontawesome.com/38996065ef.js" crossorigin="anonymous"></script>
+    <link th:href="@{/style/main.css}" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="container mt-5">
+<div th:replace="fragments/nav :: navbar"></div>
+
+<div class="container mt-5 ">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-8 offset-md-2 bg-light p-3 mb-5">
             <h2>Add New Post</h2>
             <form method="post" th:action="@{/modP}" enctype="multipart/form-data" >
                 <!-- Title Input -->
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input name="title" type="text" class="form-control" id="title" placeholder="Enter title" th:value="${post.title}" required>
+                </div>
+                <!-- Sub Title Input -->
+                <div class="form-group">
+                    <label for="subtitle"> Sub Title:</label>
+                    <input  th:value="${post.subtitle}" name="subtitle" type="text" class="form-control" id="subtitle" placeholder="Enter sub title" required>
                 </div>
                 <!-- Content Textarea -->
                 <div class="form-group">
@@ -58,7 +70,9 @@
                 <div class="form-group">
                     <label for="file">Image:</label>
                     <input th:value="'data:image/jpeg;base64,' + ${post.img}" type="file" name="file" class="form-control-file" id="file">
+                    <input name="id" id="id" type="hidden" th:value="${post.id}">
                 </div>
+
 
 
                 <!-- Submit Button -->
@@ -74,3 +88,16 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
+<style>
+    body{
+
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background-image: url("https://img.freepik.com/premium-vector/white-abstract-background-3d-design_336924-3724.jpg?w=2000");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-position: center;
+    }
+</style>

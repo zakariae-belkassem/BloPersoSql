@@ -183,4 +183,7 @@ public class BloggerService {
         bloggerRepository.save(sen);
     }
 
+    public void update(Blogger b) {
+        bloggerRepository.save(b);
+    }
 }
