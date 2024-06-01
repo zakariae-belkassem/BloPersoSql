@@ -36,7 +36,7 @@
                     <div th:each="cate : ${cat}" class="m-1">
                         <a th:href="'/categorie/' + ${cate}" th:text="${cate}" class="tag-cloud badge bg-primary text-white "></a>
                     </div>
-                    <div class="m-1">
+                    <div class="m-1" th:if="${cat!=null}">
                         <a href="/" class="tag-cloud badge bg-primary text-white ">clear <i class="fa-solid fa-xmark"></i></a>
                     </div>
 
