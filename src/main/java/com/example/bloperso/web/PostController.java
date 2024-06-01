@@ -29,7 +29,7 @@ import java.util.List;
 public class  PostController {
 
     @Autowired
-    BloggerService bloggerService;
+    private  BloggerService  bloggerService;
     @Autowired
     private PostRepository postRepository ;
     @Autowired
@@ -39,13 +39,11 @@ public class  PostController {
     private BloggerRepository bloggerRepository;
 
 
-    public void SetUpBlogger(){
+    public   void  SetUpBlogger(){
         String principalName ;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         principalName = authentication.getName();
-
-        Long id = bloggerService.getByUsername(principalName).getId();
-
+        Long id =bloggerService.getByUsername(principalName).getId();
         idBlogger=id;
         BloggerService.SetupB(id);
         CommentController.SetupB(id);
@@ -81,6 +79,7 @@ public class  PostController {
     }
     @GetMapping(value = "/?{search}")
     public String search(@PathVariable(value = "param") String search,Model model){
+
         List<Post> result = postService.Searched(search);
         model.addAttribute("poste", result);
         model.addAttribute("featured",postService.Featured());
@@ -119,6 +118,7 @@ public class  PostController {
     // Method to handle form submission and save post data
     @PostMapping("/add")
     public String addPost(@ModelAttribute("newPost") Post newPost, @RequestParam("file")MultipartFile file) {
+
         try {
             Blob blob ;
             if (!file.isEmpty()) {
@@ -143,6 +143,7 @@ public class  PostController {
 
     @GetMapping(value = "/deleteP/{id}")
     public String removeP(@PathVariable Long id){
+
         bloggerService.removePost(id);
         return "redirect:/";
     }
@@ -150,23 +151,27 @@ public class  PostController {
     @GetMapping(value = "/ownPosts")
     public String ownP(Model model){
 
+
         model.addAttribute("posts",bloggerService.ownPosts(idBlogger));
         return "CrudPost";
     }
     @GetMapping(value = "/ownPosts/{id}")
     public String ownPp(@PathVariable Long id,Model model){
 
+
         model.addAttribute("poste",bloggerService.ownPosts(id));
         return "index";
     }
     @GetMapping(value = "/modP/{id}")
     public String Modifier(@PathVariable Long id,Model model){
+
        model.addAttribute("post", postService.getPostById(id));
         return "modifier";
     }
     @PostMapping (value = "/modP")
     public String Modifier(@RequestParam(name = "title") String t ,@RequestParam(name = "subtitle") String st,@RequestParam(name = "corpsPost") String c,@RequestParam(name = "theme") PostCategorie cat , @RequestParam(name = "visibilite") Visibilite v , @RequestParam(name = "id") Long id,@RequestParam(name = "file") MultipartFile file ){
         Post p = postService.getPostById(id);
+
         p.setTitle(t);
         p.setSubtitle(st);
         p.setCorpsPost(c);

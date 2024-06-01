@@ -39,6 +39,7 @@ public class UserController {
     //get BookMarks of connected user
     @RequestMapping(value = "/BookMarks")
     public String GetBookmarks(Model model){
+
         List<Post> posts = bloggerService.Bookmarked();
         model.addAttribute("poste",posts);
         model.addAttribute("image","images/img.jpg");
@@ -46,6 +47,7 @@ public class UserController {
     }
     @RequestMapping(value = "/addFriendRequest/{id}")
     public String AddFriend(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer, @PathVariable Long id , Model model) {
+
         String message = bloggerService.AddFriendReq(id);
 
          model.addAttribute("message" , message);
@@ -53,7 +55,7 @@ public class UserController {
     }
     @RequestMapping(value = "/myPosts")
     public String myPosts(Model model){
-        List<Post> posts = bloggerService.ownPosts(idBlogger);
+
         return "ownPosts";
     }
     @RequestMapping(value="/profile/{id}")
@@ -72,7 +74,8 @@ public class UserController {
     }
     @PostMapping("/profile/update")
     public String updateP(@RequestParam(name = "fullName" ) String fn ,@RequestParam(name = "adresse") String ad ,@RequestParam(name="email") String un ,@RequestParam(name="phoneNumber") String pn , Model model){
-       Blogger b = bloggerService.getBloggerInfo(idBlogger);
+
+        Blogger b = bloggerService.getBloggerInfo(idBlogger);
        b.setAdresse(ad);
        b.setEmail(un);
        b.setFullName(fn);
@@ -83,6 +86,7 @@ public class UserController {
 
     @RequestMapping(value = "/myprofile")
     public String myProfile(Model model){
+
         model.addAttribute("Lblogger",bloggerService.getBloggerInfo(idBlogger));
         return "redirect:/profile/"+idBlogger;
     }
@@ -95,6 +99,7 @@ public class UserController {
 
     @GetMapping("/delF/{id}")
     public String delFriendRequest(@PathVariable Long id){
+
         bloggerService.refuseRequest(id);
         return  "redirect:/" ;
     }

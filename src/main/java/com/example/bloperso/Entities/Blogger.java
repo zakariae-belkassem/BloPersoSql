@@ -137,7 +137,6 @@ public class Blogger implements UserDetails, Serializable {
                 "Id=" + Id +
                 ", username='" + username + '\'' +
                 ", fullName='" + fullName + '\'' +
-                ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", nbrPosts=" + nbrPosts +
                 ", adresse='" + adresse + '\'' +

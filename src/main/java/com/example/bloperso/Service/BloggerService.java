@@ -142,9 +142,9 @@ public class BloggerService {
                 liker.getLikedPosts().remove(post);
                 bloggerRepository.save(liker); // Save changes to the liker
             }
-//            Blogger b = bloggerRepository.findById(idBlogger).orElse(null);
-//            b.removePost(post);
-//            bloggerRepository.save(b);
+            Blogger b = bloggerRepository.findById(idBlogger).orElse(null);
+            b.removePost(post);
+            bloggerRepository.save(b);
             postRepository.deleteById(idP);
         }
     }
