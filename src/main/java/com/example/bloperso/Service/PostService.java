@@ -2,6 +2,7 @@ package com.example.bloperso.Service;
 
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
+import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.PostRepository;
 import lombok.Setter;
@@ -29,9 +30,9 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    
+
     public List<Post> Searched(String keywords) {
-        List<Post> l = postRepository.findAll();
+        List<Post> l = postRepository.findAll().stream().filter(e->e.getVisibilite().equals(Visibilite.Public)).toList();
         List<Post> result = new ArrayList<>();
         String[] words = keywords.split("\\s+");
         for (String word : words) {
@@ -42,7 +43,6 @@ public class PostService {
         }
         return result;
     }
-
     public Post getPostById(Long id){
         return postRepository.findById(id).orElse(null);
     }
@@ -54,7 +54,7 @@ public class PostService {
         return postRepository.findById(1L).orElse(null);
     }
     public List<Post> FilterByTopic(String topic){
-        return postRepository.findAll().stream().filter(e-> e.getTheme().equals(PostCategorie.valueOf(topic))).toList();
+        return postRepository.findAll().stream().filter(e-> e.getTheme().equals(PostCategorie.valueOf(topic)) && e.getVisibilite().equals(Visibilite.Public)).toList();
     }
 
 

@@ -3,6 +3,7 @@ package com.example.bloperso.web;
 import com.example.bloperso.Entities.Blogger;
 import com.example.bloperso.Entities.Post;
 import com.example.bloperso.Entities.PostCategorie;
+import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,9 @@ public class UserController {
         Blogger b  = bloggerService.getBloggerInfo(id);
        model.addAttribute("blogger",b);
        model.addAttribute("posts",bloggerService.ownPosts(id));
+       model.addAttribute("publicposts",bloggerService.ownPosts(id).stream().filter(e->e.getVisibilite().equals(Visibilite.Public)).toList());
+        model.addAttribute("friendlyposts",bloggerService.ownPosts(id).stream().filter(e->e.getVisibilite().equals(Visibilite.Friends_only)).toList());
+
        model.addAttribute("cat" , PostCategorie.values());
        model.addAttribute("catCount",bloggerService.getCountC(id));
         model.addAttribute("message","welcome to my page");

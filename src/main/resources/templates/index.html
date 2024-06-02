@@ -17,7 +17,7 @@
 </head>
 <body class="body">
 <div th:replace="fragments/nav :: navbar"></div>
-<header class="header py-5  border-bottom mb-4" >
+<header class="header py-5   mb-4" >
     <div class="container">
         <div class="text-center my-5">
             <h1 class="fw-bolder">Welcome to BlogO!</h1>
@@ -34,10 +34,10 @@
             <div class="container mb-4">
                 <div class="d-flex justify-content-center flex-wrap">
                     <div th:each="cate : ${cat}" class="m-1">
-                        <a th:href="'/categorie/' + ${cate}" th:text="${cate}" class="tag-cloud badge bg-primary text-white "></a>
+                        <a th:href="'/categorie/' + ${cate}" th:text="${cate}" class="tag-cloud badge bg-dark text-white "></a>
                     </div>
                     <div class="m-1" th:if="${cat!=null}">
-                        <a href="/" class="tag-cloud badge bg-primary text-white ">clear <i class="fa-solid fa-xmark"></i></a>
+                        <a href="/" class="tag-cloud badge bg-dark text-white ">clear <i class="fa-solid fa-xmark"></i></a>
                     </div>
 
                 </div>
@@ -49,14 +49,15 @@
 
                 <div class="card-body">
                     <div class="small text-muted" th:text="${post.theme}"></div>
-                    <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>:
+                    <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>
                     
                     <div class="d-flex justify-content-between">
-                        <a class="btn btn-primary" th:href="@{'/post/' + ${post.id}}">Read more →</a>
+                        <a class="btn btn-outline-dark" th:href="@{'/post/' + ${post.id}}"><i class="fa-solid fa-arrow-right"></i></a>
                         <form action="/bookMark" th:method="post">
                             <input name="id" id="id" type="hidden" th:value="${post.id}">
-                            <button  type="submit"  class="btn btn-primary">
-                                BookMark
+                            <button  type="submit"  class="btn btn-outline-dark">
+                                <i class="fa-solid fa-bookmark" th:if="${blogger.getBookMarks().contains(post)}"></i>
+                                <i class="fa-regular fa-bookmark" th:if="${!blogger.getBookMarks().contains(post)}"></i>
                             </button>
                         </form>
                     </div>
@@ -65,8 +66,9 @@
                 <div class="card-footer d-flex justify-content-between align-items-center" style="background: white">
                     <form action="/like" th:method="post">
                         <input name="id" id="idd" type="hidden" th:value="${post.id}">
-                        <button  type="submit"  class="btn btn-primary">
-                            Like
+                        <button  type="submit"  class="btn btn-outline-dark">
+                            <i  class="fa-solid fa-thumbs-up" th:if="${post.likers.contains(blogger)}"></i>
+                            <i  class="fa-regular fa-thumbs-up" th:if="${!post.likers.contains(blogger)}"></i>
                         </button>
                     </form>
                     <small class="text-muted" th:text="${post.comments.size()} + ' comments'">comments</small>
@@ -82,7 +84,7 @@
             <form method="get" th:action="@{/}" class="d-flex me-3">
                 <div class="input-group">
                     <input type="search" id="param" name="param" class="form-control" placeholder="Search"/>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-outline-dark">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
@@ -104,13 +106,13 @@
                     <tr th:each="b : ${blogger.friendRequest}">
                         <td th:text="${b.username}"></td>
                         <td>
-                            <button th:onclick="|window.location.href='/profile/'+${b.id}|" >
+                            <button class="btn btn-outline-dark" th:onclick="|window.location.href='/profile/'+${b.id}|" >
                                 <i class="fa-solid fa-user"></i>
                             </button>
-                            <button th:onclick="|window.location.href='/addF/'+${b.id}|">
+                            <button class="btn btn-outline-dark" th:onclick="|window.location.href='/addF/'+${b.id}|">
                                 <i class="fa-solid fa-check"></i>
                             </button>
-                            <button th:onclick="|window.location.href='/delF/'+${b.id}|">
+                            <button class="btn btn-outline-dark" th:onclick="|window.location.href='/delF/'+${b.id}|">
                                 <i class="fa-solid fa-delete-left"></i>
                             </button>
                         </td>

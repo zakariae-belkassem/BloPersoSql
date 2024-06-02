@@ -90,7 +90,7 @@
                             <hr>
                             <div class="row" th:if="${isEditable}">
                                 <div class="col-sm-12 text-right">
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="submit" class="btn btn-outline-dark"><i class="fa-solid fa-floppy-disk"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +104,8 @@
 
                                 <span>posts </span>
 
-                                <div class="card mb-4"  th:each="post : ${posts}">
+                                <div th:if="${isEditable}" class="card mb-4"  th:each="post : ${posts}">
+
                                     <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
 
                                     <a th:href="@{'/post/'+${post.id}}"></a>
@@ -115,12 +116,49 @@
                                         <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>
 
                                         <div class="d-flex justify-content-between">
-                                            <a class="btn btn-primary" th:href="@{'/post/' + ${post.id}}">Read more →</a></div>
+                                            <a class="btn btn-outline-dark" th:href="@{'/post/' + ${post.id}}"><i class="fa-solid fa-arrow-right"></i></a></div>
 
                                     </div>
 
 
                             </div>
+                                <div th:if="${!isEditable || Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${friendlyposts}">
+
+                                    <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
+
+                                    <a th:href="@{'/post/'+${post.id}}"></a>
+
+
+                                    <div class="card-body">
+                                        <div class="small text-muted" th:text="${post.theme}"></div>
+                                        <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>
+
+                                        <div class="d-flex justify-content-between">
+                                            <a class="btn btn-outline-dark" th:href="@{'/post/' + ${post.id}}"><i class="fa-solid fa-arrow-right"></i></a></div>
+
+                                    </div>
+
+
+                                </div>
+                                <div th:if="${!isEditable || !Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${publicposts}">
+
+                                    <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
+
+                                    <a th:href="@{'/post/'+${post.id}}"></a>
+
+
+                                    <div class="card-body">
+                                        <div class="small text-muted" th:text="${post.theme}"></div>
+                                        <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>
+
+                                        <div class="d-flex justify-content-between">
+                                            <a class="btn btn-outline-dark" th:href="@{'/post/' + ${post.id}}"><i class="fa-solid fa-arrow-right"></i></a></div>
+
+                                    </div>
+
+
+                                </div>
+
 
                             </div>
                         </div>
