@@ -73,4 +73,8 @@ public class PostService {
         p.setBlogger(bloggerRepository.findById(idBlogger).orElse(null));
         postRepository.save(p);
     }
+
+    public List<Post> publicPosts() {
+        return postRepository.findAll().stream().filter(e->e.getVisibilite().equals(Visibilite.Public)).toList();
+    }
 }

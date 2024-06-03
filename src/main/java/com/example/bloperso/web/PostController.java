@@ -56,11 +56,13 @@ public class  PostController {
     public String showPostDetail(@PathVariable("postId") Long postId, Model model) {
 
         Post post = postService.getPostById(postId);
+
         Blogger b =bloggerRepository.findById(idBlogger).orElse(null);
         model.addAttribute("post", post);
         model.addAttribute("image","images/img.jpg");
         model.addAttribute("Lblogger",b);
         model.addAttribute("isFriends",(b.getFriends().contains(post.getBlogger())));
+        model.addAttribute("similiarposts",postService.publicPosts().stream().filter(e->e.getTheme().equals(post.getTheme()) || !e.equals(post)));
 
         return "post";
     }

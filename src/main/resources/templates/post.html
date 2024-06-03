@@ -71,39 +71,40 @@
                         <p class="text-muted mb-1" th:text="${post.blogger.username}"></p>
                         <p class="text-muted mb-4" ></p>
 
-                        <p type="disabled" th:text="'posted on'+${post.creationDate}"></p>
+                        <p type="disabled" th:date="'posted on'+${post.creationDate}"></p>
 
                     </div>
                 </div>
             </div>
             <!-- Single post -->
-            <article class="card mb-4 bg-transparent">
+    <div class="row">
+        <div class="col-lg-8"> <article class="card mb-4 bg-transparent">
 
-                <figure class="mb-4"><img class="img-thumbnail rounded post-image" th:src="'data:image/jpeg;base64,' + ${post.img}" alt="..." /></figure>
-                <div class="card-body">
-                    <!-- Post content -->
-                    <h1 class="card-title fw-bolder mb-3" th:text="${post.title}">Post Title</h1>
-                    <p class="card-text" th:utext="${post.corpsPost}">Post Content</p>
-                    <!-- Post comments -->
-                    <hr style="color: black">
-                    <h2 class="card-subtitle mb-3">Comments</h2>
-                    <hr>
-                    <div th:each="comment : ${post.comments}" class="comment">
+            <figure class="mb-4"><img class="img-thumbnail rounded post-image" th:src="'data:image/jpeg;base64,' + ${post.img}" alt="..." /></figure>
+            <div class="card-body">
+                <!-- Post content -->
+                <h1 class="card-title fw-bolder mb-3" th:text="${post.title}">Post Title</h1>
+                <p class="card-text" th:utext="${post.corpsPost}">Post Content</p>
+                <!-- Post comments -->
+                <hr style="color: black">
+                <h2 class="card-subtitle mb-3">Comments</h2>
+                <hr>
+                <div th:each="comment : ${post.comments}" class="comment">
 
-                        <div class="comment-content">
-                            <a th:href="@{/profile/{id}(id=${comment.blogger.id})}">
-                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
-                                     alt="avatar"
-                                     class="rounded-circle img-fluid"
-                                     style="width: 45px;">
-                            </a>
+                    <div class="comment-content">
+                        <a th:href="@{/profile/{id}(id=${comment.blogger.id})}">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                                 alt="avatar"
+                                 class="rounded-circle img-fluid"
+                                 style="width: 45px;">
+                        </a>
 
-                            <span class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</span>:
-                            <span th:text="${comment.content}">Comment Content</span>
-                        </div>
+                        <span class="fw-bold" th:text="${comment.blogger.username}">Commenter Name</span>:
+                        <span th:text="${comment.content}">Comment Content</span>
                     </div>
                 </div>
-            </article>
+            </div>
+        </article>
             <!-- Comment form -->
             <div class="card mb-4 comment-form bg-transparent">
                 <div class="card-body">
@@ -119,8 +120,36 @@
                 </div>
             </div>
         </div>
-        <!-- Side widgets-->
+
         <div class="col-lg-4">
+            <div class="text-center">
+                <h1 class="bg-secondary text-white border-0 rounded p-2">Similar posts</h1>
+            </div>
+            <di class="card mb-4"  th:each="post : ${similiarposts}">
+
+                <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
+
+                <a th:href="@{'/post/'+${post.id}}"></a>
+
+
+                <div class="card-body">
+                    <div class="small text-muted" th:text="${post.theme}"></div>
+                    <h2 class="card-title h4" th:text="${post.title}">Post Title</h2>
+
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-outline-dark" th:href="@{'/post/' + ${post.id}}"><i class="fa-solid fa-arrow-right"></i></a></div>
+
+                </div>
+
+
+            </di>
+
+        </div>
+    </div>
+
+        </div>
+        <!-- Side widgets-->
+
 
             <!-- Categories widget-->
 
