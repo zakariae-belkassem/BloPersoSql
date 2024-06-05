@@ -1,6 +1,8 @@
 package com.example.bloperso.Entities;
 
 import jakarta.persistence.*;
+import jakarta.websocket.OnError;
+import jakarta.websocket.OnMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class Blogger implements UserDetails, Serializable {
     public Long Id ;
 
     @Column(name="User_name",length=100,nullable=false,unique = true)
+
     private String username;
 
     @Column(name="full_name",length=100,nullable=false)
@@ -43,7 +46,7 @@ public class Blogger implements UserDetails, Serializable {
 
 
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Blogger> friends;
 
     @Column(name = "Adresse")

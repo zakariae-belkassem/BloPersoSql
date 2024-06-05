@@ -49,8 +49,8 @@ public class Post implements Serializable{
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "likedPosts")
     private List<Blogger> likers;
-    @Column(name = "image",columnDefinition = "LONGTEXT")
 
+    @Column(name = "image",columnDefinition = "LONGTEXT")
     private String img;
 
     public Post(Blogger blogger, String title, String corpsPost, PostCategorie theme, Visibilite visibilite, List<Comment> comments, List<Blogger> likers) {
@@ -74,7 +74,7 @@ public class Post implements Serializable{
         likers.remove(b);
     }
     public void setImg(Blob blob) {
-        byte[] bytes = new byte[0];
+        byte[] bytes ;
         try {
             bytes = blob.getBytes(1, (int) blob.length());
             img = Base64.getEncoder().encodeToString(bytes);

@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,8 +62,16 @@ public class LoginController {
     }
     @PostMapping("/registration")
     public String registerBlogger(Blogger blogger,
-                                  Model model) {
+                                  Model model, BindingResult result, RedirectAttributes redirectAttributes) {
         bloggerService.reg(blogger);
+        if (result.hasErrors()) {
+            return "register";
+        }
+
+        // Save the user (or any other business logic)
+
+        // Add success message
+        redirectAttributes.addFlashAttribute("successMessage", "User registered successfully!");
         model.addAttribute("success", true);
         return "redirect:/login";
     }

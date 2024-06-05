@@ -62,7 +62,7 @@ public class  PostController {
         model.addAttribute("image","images/img.jpg");
         model.addAttribute("Lblogger",b);
         model.addAttribute("isFriends",(b.getFriends().contains(post.getBlogger())));
-        model.addAttribute("similiarposts",postService.publicPosts().stream().filter(e->e.getTheme().equals(post.getTheme()) || !e.equals(post)));
+        model.addAttribute("similiarposts",postService.publicPosts().stream().filter(e->e.getTheme().equals(post.getTheme()) && !e.equals(post)));
 
         return "post";
     }
