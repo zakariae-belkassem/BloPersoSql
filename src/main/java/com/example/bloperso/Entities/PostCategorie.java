@@ -7,6 +7,8 @@ public enum PostCategorie {
     Actualite,
     Science,
     Technolgie,
-    Informatique,
+    Sport,
+    Economie,
+    Culture,
 
 }

@@ -34,10 +34,11 @@ public class PostService {
     public List<Post> Searched(String keywords) {
         List<Post> l = postRepository.findAll().stream().filter(e->e.getVisibilite().equals(Visibilite.Public)).toList();
         List<Post> result = new ArrayList<>();
-        String[] words = keywords.split("\\s+");
+        String[] words = keywords.toLowerCase().split("\\s+");
+        System.out.println(words[0]);
         for (String word : words) {
             for (Post p : l) {
-                if (p.getCorpsPost().contains(word) || p.getTitle().contains(word) || !result.contains(p)||p.getBlogger().getUsername().contains(word))
+                if ( (p.getTitle().toLowerCase().contains(word)||p.getBlogger().getUsername().toLowerCase().equals(word)) && !result.contains(p))
                     result.add(p);
             }
         }

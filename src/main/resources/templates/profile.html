@@ -122,7 +122,7 @@
 
 
                             </div>
-                                <div th:if="${!isEditable || Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${friendlyposts}">
+                                <div th:if="${!isEditable   && Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${friendlyposts}">
 
                                     <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
 
@@ -140,7 +140,7 @@
 
 
                                 </div>
-                                <div th:if="${!isEditable || !Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${publicposts}">
+                                <div th:if="${!isEditable && !Lblogger.friends.contains(blogger)}" class="card mb-4"  th:each="post : ${publicposts}">
 
                                     <img class="card-img-top " th:src="'data:image/jpeg;base64,' + ${post.img}" alt="Post Image" /></a>
 

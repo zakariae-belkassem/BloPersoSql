@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="visibilite">Visibility:</label>
                     <select name="visibilite" class="form-control" id="visibilite" >
-                        <option value="">Select theme</option>
+                        <option value="">Select Visibility</option>
                         <option th:each="v : ${T(com.example.bloperso.Entities.Visibilite).values()}"
                                 th:value="${v}"
                                 th:text="${#strings.capitalize(v.toString().toLowerCase())}"></option>
