@@ -99,7 +99,6 @@ public class  PostController {
             //index stuff
             List<Post> posts = postRepository.findAll();
             model.addAttribute("poste",posts.stream().filter(e->e.getVisibilite().equals(Visibilite.Public)).toList());
-            model.addAttribute("featured",postService.Featured());
         model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
         if (bloggerRepository.findById(idBlogger).get().getFriends()!=null) model.addAttribute("hasReq",true);
         else model.addAttribute("hasReq",false);

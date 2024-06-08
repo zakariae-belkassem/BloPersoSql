@@ -6,6 +6,7 @@ import com.example.bloperso.Entities.PostCategorie;
 import com.example.bloperso.Entities.Visibilite;
 import com.example.bloperso.Service.BloggerService;
 
+import com.example.bloperso.dao.BloggerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
    private BloggerService bloggerService;
+
+    @Autowired
+    private BloggerRepository bloggerRepository;
 
 
 
@@ -43,8 +47,12 @@ public class UserController {
 
         List<Post> posts = bloggerService.Bookmarked();
         model.addAttribute("poste",posts);
-        model.addAttribute("image","images/img.jpg");
+        model.addAttribute("blogger",bloggerService.getBloggerInfo(idBlogger));
+        if (bloggerRepository.findById(idBlogger).get().getFriends()!=null) model.addAttribute("hasReq",true);
+        else model.addAttribute("hasReq",false);
+        model.addAttribute("cat",PostCategorie.values());
         return "index";
+        
     }
     @RequestMapping(value = "/addFriendRequest/{id}")
     public String AddFriend(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer, @PathVariable Long id , Model model) {
