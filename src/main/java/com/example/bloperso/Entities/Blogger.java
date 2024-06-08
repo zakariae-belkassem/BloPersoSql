@@ -40,13 +40,9 @@ public class Blogger implements UserDetails, Serializable {
 
     @Column(name="phone_number",length=100)
     private String phoneNumber;
-
     @Transient
     private int nbrPosts = 0;
-
-
-
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY,orphanRemoval = true)
     private List<Blogger> friends;
 
     @Column(name = "Adresse")
@@ -55,14 +51,14 @@ public class Blogger implements UserDetails, Serializable {
     private String email;
     @OneToMany(mappedBy = "blogger")
     private List<Comment> comment ;
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Post> bookMarks ;
     @OneToMany()
     private List<Blogger> friendRequest;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "blogger",orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "blogger")
     private List<Post> posts;
-    @ManyToMany
+    @ManyToMany()
     private List<Post> likedPosts;
 
     private String ROLE = "ROLE_USER";

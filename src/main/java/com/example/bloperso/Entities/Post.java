@@ -49,6 +49,8 @@ public class Post implements Serializable{
 
     @ManyToMany(cascade = CascadeType.ALL,mappedBy = "likedPosts")
     private List<Blogger> likers;
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "bookMarks")
+    private List<Blogger> BookmarkedBy;
 
     @Column(name = "image",columnDefinition = "LONGTEXT")
     private String img;

@@ -8,6 +8,8 @@ import com.example.bloperso.dao.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -135,45 +137,15 @@ public class BloggerService {
 
     }
 
+    @Transactional
     public void removePost(Long idP) {
-        Optional<Post> optionalPost = postRepository.findById(idP);
-        if (optionalPost.isPresent()) {
-            Post post = optionalPost.get();
+        if (postRepository.findById(idP).isPresent()) {
 
-            // Remove likes
-            for (Blogger liker : post.getLikers()) {
-                liker.getLikedPosts().remove(post);
-                bloggerRepository.save(liker); // Save changes to the liker
-            }
-            post.getLikers().clear();
-            postRepository.save(post);
 
-            // Remove bookmarks
-            for (Blogger bookMarker : bloggerRepository.findAll()) {
-                if (bookMarker.getBookMarks().contains(post)) {
-                    bookMarker.removeBookMark(post);
-                    bloggerRepository.save(bookMarker);
-                }
-            }
-
-            // Remove comments
-            for (Comment comment : post.getComments()) {
-                commentRepository.delete(comment);
-            }
-            post.getComments().clear();
-            postRepository.save(post);
-
-            // Remove post from the blogger
-            Blogger blogger = bloggerRepository.findById(idBlogger).orElse(null);
-            if (blogger != null) {
-                blogger.removePost(post);
-                bloggerRepository.save(blogger);
-            }
-
-            // Finally, delete the post
-            postRepository.delete(post);
+            postRepository.deleteById(idP);
         }
-    }
+        }
+
 
     public List<Post> ownPosts(Long idB){
         return postRepository.findAll().stream().filter(e->e.getBlogger().getId().equals(idB)).toList();

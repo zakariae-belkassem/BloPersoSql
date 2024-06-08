@@ -9,6 +9,7 @@ import com.example.bloperso.Service.PostService;
 import com.example.bloperso.dao.BloggerRepository;
 import com.example.bloperso.dao.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -141,10 +142,10 @@ public class  PostController {
 //popular posts + if not connected show preview only -> on click loginPage + Sessions + Security
 
     @GetMapping(value = "/deleteP/{id}")
-    public String removeP(@PathVariable Long id){
+    public String removeP(@RequestHeader(value = HttpHeaders.REFERER, required = false) final String referrer, @PathVariable Long id){
 
         bloggerService.removePost(id);
-        return "redirect:/";
+        return "redirect:"+referrer;
     }
 
     @GetMapping(value = "/ownPosts")
